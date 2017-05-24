@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :service_providers
   get 'static_pages/home'
 
   get 'static_pages/help'
