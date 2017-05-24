@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy'
 
-  get 'tickets/auth'
+  get 'tickets/authenticate'
 
   resources :service_providers
   get 'static_pages/home'
