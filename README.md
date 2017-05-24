@@ -28,8 +28,8 @@ parameters:
 
 3. callback params
 path is specified by third-party application owner. MC will redirected to this URL with following parameters:
-1) ticket
-2) sign: sign = md5(ticket-credential).to_hex_form
+- 1) ticket
+- 2) sign: sign = md5(ticket-credential).to_hex_form
 
 4. User information response
 The response content needs negotiate with third-party applications. Currently, the response json format is:
@@ -82,26 +82,26 @@ The response content needs negotiate with third-party applications. Currently, t
   1. Register one user on Member Center;
   2. Register application on Member Center;
   You need to provide following information:
-  1) application description;
-  2) APP_callback_URL;
-  3) Revoke_URL
+  - 1) application description;
+  - 2) APP_callback_URL;
+  - 3) Revoke_URL
   3. Store private keys in safe way.
   Secret_key: key used to decrypt user information
   Credential: Used to generate digest information;
   4. Prepare encryption and decryption methods. We use AES-128-CBC algorithm. Read more on OpenSSL documents;
   5. Prepare MD5 digest method, the generated digest need to use hexadecimal form;
   6. Add method to handle callback action.
-  1) verify sign;
-  2) generate new sign;
-  3) POST a request to Member Center.
+  - 1) verify sign;
+  - 2) generate new sign;
+  - 3) POST a request to Member Center.
   7. Modify login mechanism. When Member Center respond with user information, you need to
-  1) verify sign;
-  2) decryption user information
-  3) login user based on current user information;
+  - 1) verify sign;
+  - 2) decryption user information
+  - 3) login user based on current user information;
 
   8. Handle revoke action. When user changed password, Member Center will call revoke action to all third-party application to notify login information has been expired. You need to implement one method to
-  1) verify revoking request is valid;
-  2) logout corresponding user;
+  - 1) verify revoking request is valid;
+  - 2) logout corresponding user;
 
 # Merits
   1. Reduce user's responsibility to keep many accounts;
