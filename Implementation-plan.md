@@ -8,7 +8,10 @@
 1. i18n
 
 * Earlier is better
-
+  1. Reset password;
+  2. Revoke login status after reset password or logout from member center;
+  3. Use cache;
+  4. Key information encryption in responding data;
 
 * Important but need time to do 
 1. Two-Factor Authentication
@@ -41,13 +44,15 @@ Catalog review and get feedback and improvement
 
 Milestone 5
 I18n widely used
+Cache enabled
+Multi-location deployment
+Read/write separation
 
 Milestone+
 TFA
 PASSWORD FREE LOGIN
 Classified authenticating level
 member information management
-
 
 
 
