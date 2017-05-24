@@ -11,6 +11,7 @@
 9. When verified and authenticated this ticket, MC respond ticket-associated user information to APP server;
 10. APP render user welcome page;
 
+* see process flow picture form app/assets/images
 # API specification
 1. Login to Member Center
 ```
