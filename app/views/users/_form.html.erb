@@ -1,52 +1,43 @@
 <%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <% if user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label t('user_name') %>
+      <%= form.text_field :user_name, id: :user_user_name %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :user_name %>
-    <%= form.text_field :user_name, id: :user_user_name %>
-  </div>
+    <div class="field">
+      <%= form.label t('emp_id') %>
+      <%= form.text_field :emp_id, id: :user_emp_id %>
+    </div>
 
-  <div class="field">
-    <%= form.label :emp_id %>
-    <%= form.text_field :emp_id, id: :user_emp_id %>
-  </div>
+    <div class="field">
+      <%= form.label t('mobile_phone') %>
+      <%= form.text_field :mobile_phone, id: :user_mobile_phone %>
+    </div>
 
-  <div class="field">
-    <%= form.label :mobile_phone %>
-    <%= form.text_field :mobile_phone, id: :user_mobile_phone %>
-  </div>
+    <div class="field">
+      <%= form.label t('email') %>
+      <%= form.text_field :email, id: :user_email %>
+    </div>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email, id: :user_email %>
-  </div>
 
-  <div class="field">
-    <%= form.label :credential %>
-    <%= form.text_field :credential, id: :user_credential %>
-  </div>
+    <div class="field">
+      <%= form.label t('password') %>
+      <%= form.password_field :password_digest, id: :user_password_digest %>
+    </div>
 
-  <div class="field">
-    <%= form.label :role %>
-    <%= form.text_field :role, id: :user_role %>
-  </div>
-
-  <div class="field">
-    <%= form.label :password %>
-    <%= form.text_field :password_digest, id: :user_password_digest %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
 <% end %>
