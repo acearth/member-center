@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>App:</strong>
+  <%= @service_provider.app_id %>
+</p>
+
+<p>
+  <strong>Auth level:</strong>
+  <%= @service_provider.auth_level %>
+</p>
+
+<p>
+  <strong>Credential:</strong>
+  <%= @service_provider.credential %>
+</p>
+
+<p>
+  <strong>Secret key:</strong>
+  <%= @service_provider.secret_key %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @service_provider.user %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @service_provider.description %>
+</p>
+
+<%= link_to 'Edit', edit_service_provider_path(@service_provider) %> |
+<%= link_to 'Back', service_providers_path %>
