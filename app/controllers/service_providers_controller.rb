@@ -24,7 +24,7 @@ class ServiceProvidersController < ApplicationController
   # POST /service_providers
   # POST /service_providers.json
   def create
-    @service_provider = ServiceProvider.new(service_provider_params)
+    @service_provider = ServiceProvider.new(service_provider_params.merge(user_id: current_user.id))
 
     respond_to do |format|
       if @service_provider.save
@@ -69,6 +69,6 @@ class ServiceProvidersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_provider_params
-      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :user_id, :description)
+      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description)
     end
 end
