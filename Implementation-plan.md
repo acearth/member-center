@@ -1,5 +1,6 @@
 # Implementation Plan for Member Center
 
+## To-do list
 * Urgent
 1. access right
 
@@ -15,6 +16,40 @@
 3. Password-free login
 4. Security: Deviant user behavior alert
 5. User behavior collecting and analysis
+
+
+## Plans
+
+Milestone 1
+User/Ticket/ServiceProvider CRUD [FINE]
+
+Milestone 2
+Basic Front View  [FINE]
+Access control
+    - user  [FINE]
+    - service provider [  ]
+    
+   
+Milestone 3
+Web API release [FINE]
+Anti-tamper and encryption [FINE]
+Password reset
+
+Milestone 4
+First Service provider introduced [  ]waited
+Catalog review and get feedback and improvement
+
+Milestone 5
+I18n widely used
+
+Milestone+
+TFA
+PASSWORD FREE LOGIN
+Classified authenticating level
+member information management
+
+
+
 
 
 
