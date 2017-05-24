@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    @user.role = 0 # init as ordinary user
 
     respond_to do |format|
       if @user.save
@@ -71,8 +72,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    got = params.require(:user).permit(:user_name, :emp_id, :mobile_phone, :email, :password)
-    # got.merge(role: :ordinary)
+    params.require(:user).permit(:user_name, :emp_id, :mobile_phone, :email, :password)
   end
 
   # Confirms the correct user.
