@@ -30,4 +30,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  member-center: Member Center
+
+  user_name: username
+  emp_id: employee ID
+  mobile_phone: mobile phone
+  email: email
+  password: password
+  create_user: create user
+
+
+
+

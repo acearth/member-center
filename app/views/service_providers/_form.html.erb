@@ -1,42 +1,28 @@
 <%= form_with(model: service_provider, local: true) do |form| %>
-  <% if service_provider.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(service_provider.errors.count, "error") %> prohibited this service_provider from being saved:</h2>
+    <% if service_provider.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(service_provider.errors.count, "error") %> prohibited this service_provider from being
+            saved:</h2>
 
-      <ul>
-      <% service_provider.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% service_provider.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :app_id %>
+      <%= form.text_field :app_id, id: :service_provider_app_id %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :app_id %>
-    <%= form.text_field :app_id, id: :service_provider_app_id %>
-  </div>
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_field :description, id: :service_provider_description %>
+    </div>
 
-  <div class="field">
-    <%= form.label :auth_level %>
-    <%= form.text_field :auth_level, id: :service_provider_auth_level %>
-  </div>
-
-  <div class="field">
-    <%= form.label :credential %>
-    <%= form.text_field :credential, id: :service_provider_credential %>
-  </div>
-
-  <div class="field">
-    <%= form.label :secret_key %>
-    <%= form.text_field :secret_key, id: :service_provider_secret_key %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description, id: :service_provider_description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
 <% end %>
