@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   include CommonUtils
 
   def authenticate
-    app = ApplicationProvider.find_by_app_id(params[:app_id])
+    app = ServiceProvider.find_by_app_id(params[:app_id])
     if app == nil
       puts "NO APP"
       render json: {info: 'no application '} and return
