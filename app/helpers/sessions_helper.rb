@@ -1,13 +1,5 @@
 module SessionsHelper
 
-  def my_credential
-    'arthur'
-  end
-
-  def validate_sign(ticket,sign)
-    sign == Digest::MD5::hexdigest("sample_app-#{my_credential}-#{ticket}")
-  end
-
   # Logs in the given user.
   def log_in(user)
     session[:user_id] = user.id
@@ -31,7 +23,7 @@ module SessionsHelper
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(:remember, cookies[:remember_token])
+      if user && user.authenticated?(cookies[:remember_token])
         log_in user
         @current_user = user
       end

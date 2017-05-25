@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get    'about'   => 'static_pages#about'
   get    'contact' => 'static_pages#contact'
 
+  put '/reset_sp_key/:id' => 'service_providers#reset_keys'
+
   resources :users
   resources :service_providers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

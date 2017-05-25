@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       remember user
       redirect_to login_back(params[:session][:app_id], user)
     else
-      puts 'failed to login'
+      flash[:warning] = I18n.t('wrong_user_or_password')
       render 'new'
     end
   end
@@ -27,12 +27,12 @@ class SessionsController < ApplicationController
   private
 
   def login_params(params)
-    #todo-require-params
+    params.require(params[:session]).permit(:user_name, :password, :app_id)
   end
 
   def login_back(app_id, member)
     if (app_id.present? && app = ApplicationProvider.find_by_app_id(app_id))
-      ticket = Ticket.create(application_provider: app, member: member, login_ip: request.remote_ip)
+      ticket = Ticket.create(service_provider: app, user: member, login_ip: request.remote_ip)
       ticket.save
       return "#{format_query(app.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
     else

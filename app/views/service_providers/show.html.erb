@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
+
 <p>
   <strong>App:</strong>
   <%= @service_provider.app_id %>
@@ -22,7 +24,7 @@
 
 <p>
   <strong>User:</strong>
-  <%= @service_provider.user %>
+  <%= @service_provider.user.user_name %>
 </p>
 
 <p>
@@ -30,5 +32,9 @@
   <%= @service_provider.description %>
 </p>
 
+<p>
+  <strong>Callback URL:</strong>
+  <%= @service_provider.callback_url %>
+</p>
 <%= link_to 'Edit', edit_service_provider_path(@service_provider) %> |
 <%= link_to 'Back', service_providers_path %>

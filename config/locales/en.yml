@@ -39,6 +39,9 @@ en:
   password: password
   create_user: create user
 
+  wrong_user_or_password: User not exist or password is wrong.
+  no_access_right: You don't have access right to this page.
+
 
 
 

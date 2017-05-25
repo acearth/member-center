@@ -19,6 +19,10 @@ class User < ApplicationRecord
 		BCrypt::Password.new(remember_digest).is_password?(remember_token)
 	end
 
+	def admin?
+		role == :admin
+	end
+
 	class << self
 		def digest(string)
 			cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

@@ -1,10 +1,21 @@
 class ServiceProvidersController < ApplicationController
-  before_action :set_service_provider, only: [:show, :edit, :update, :destroy]
+  before_action :set_user
+  before_action :set_service_provider, only: [:show, :edit, :update, :destroy, :reset_keys]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
+
+  def reset_keys
+    @service_provider.secret_key = SecureRandom.base58(16)
+    @service_provider.credential = SecureRandom.base58(32)
+    @service_provider.save
+    flash[:warning] = "SETCRET_KEY: #{@service_provider.secret_key}   CREDENTIAL: #{@service_provider.credential}"
+    render 'show'
+  end
   # GET /service_providers
   # GET /service_providers.json
   def index
-    @service_providers = ServiceProvider.all
+    @service_providers = ServiceProvider.where(user_id: @user.id)
+    flash[:warning] = I18n.t('no_access_right') if @service_providers.size == 0
   end
 
   # GET /service_providers/1
@@ -69,6 +80,19 @@ class ServiceProvidersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_provider_params
-      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description)
+      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url)
     end
+
+  def set_user
+    return @user = current_user if current_user
+    flash[:warning] = I18n.t('need_login')
+    redirect_to login_path
+  end
+
+  def correct_user
+    unless @user == @service_provider.user || @user.admin?
+      flash[:warning] = I18n.t 'no_access_right'
+      redirect_to login_path
+    end
+  end
 end
