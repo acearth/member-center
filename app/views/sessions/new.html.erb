@@ -1,2 +1,27 @@
-<h1>Sessions#new</h1>
-<p>Find me in app/views/sessions/new.html.erb</p>
+<h1 align="center">User Login | Member Center</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(:session, url: login_path) do |f| %>
+        <%= f.label 'User Name' %>
+        <%= f.text_field :user_name, class: 'form-control' %>
+        <!--<%= f.email_field :email, class: 'form-control' %>-->
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+        <%= f.submit "Log in", class: "btn btn-primary btn-block" %>
+        <%= f.hidden_field :app_id, :value => params[:app_id] %>
+    <% end %>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<p>
+  Member Center will enable you to login internal services with only one account and provides secure account services.
+</p>
+
+<p>
+  Member Center is still under in developing. If you have any question, please send your feedback to @an_x, by email or Slack.
+</p>
+
+

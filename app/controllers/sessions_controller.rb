@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(name: params[:session][:name])
+    user = User.find_by(user_name: params[:session][:user_name])
     if user && user.authenticate(params[:session][:password])
       log_in user
       remember user
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
   end
 
   def login_back(app_id, member)
-    if (app = ApplicationProvider.find_by_app_id(app_id))
+    if (app_id.present? && app = ApplicationProvider.find_by_app_id(app_id))
       ticket = Ticket.create(application_provider: app, member: member, login_ip: request.remote_ip)
       ticket.save
       return "#{format_query(app.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
