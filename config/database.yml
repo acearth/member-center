@@ -23,6 +23,8 @@ test:
 production:
   <<: *default
   adapter: postgresql
-  database: localhost:5432/member_center
+  host: localhost
+  port: 5432
+  database: member_center
   user: <%= ENV["PG_USER"] %>
   password: <%= ENV["PG_PASSWORD"] %>
