@@ -5,8 +5,8 @@ class ServiceProvidersController < ApplicationController
 
 
   def reset_keys
-    @service_provider.secret_key = SecureRandom.base58(16)
-    @service_provider.credential = SecureRandom.base58(32)
+    @service_provider.secret_key = ServiceProvider.new_secret_key
+    @service_provider.credential = ServiceProvider.new_credential
     @service_provider.save
     flash[:warning] = "SETCRET_KEY: #{@service_provider.secret_key}   CREDENTIAL: #{@service_provider.credential}"
     render 'show'
@@ -35,7 +35,7 @@ class ServiceProvidersController < ApplicationController
   # POST /service_providers
   # POST /service_providers.json
   def create
-    @service_provider = ServiceProvider.new(service_provider_params.merge(user_id: current_user.id))
+    @service_provider = ServiceProvider.new(create_params)
 
     respond_to do |format|
       if @service_provider.save
@@ -82,6 +82,11 @@ class ServiceProvidersController < ApplicationController
     def service_provider_params
       params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url)
     end
+
+  def create_params
+    got = params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url)
+    got.merge({user: current_user, secret_key: ServiceProvider.new_secret_key, credential: ServiceProvider.new_credential})
+  end
 
   def set_user
     return @user = current_user if current_user
