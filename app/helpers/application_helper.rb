@@ -16,6 +16,6 @@ module ApplicationHelper
     return request.original_url + '?locale=' + locale unless uri.query
     params = CGI.parse(uri.query)
     params['locale'] = locale
-    "http://#{uri.host}:#{uri.port}/#{uri.path}?#{ params.to_query}"
+    "http://#{uri.host}:#{uri.port}#{uri.path}?#{ params.to_query}"
   end
 end
