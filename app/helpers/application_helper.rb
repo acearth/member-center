@@ -9,4 +9,13 @@ module ApplicationHelper
       page_title + " | " + base_title
     end
   end
+
+
+  def url_with(locale)
+    uri = URI.parse(request.original_url)
+    return request.original_url + '?locale=' + locale unless uri.query
+    params = CGI.parse(uri.query)
+    params['locale'] = locale
+    "http://#{uri.host}:#{uri.port}/#{uri.path}?#{ params.to_query}"
+  end
 end

@@ -7,6 +7,9 @@ end
 
 ruby '2.4.1'
 
+gem 'actionpack-page_caching'
+gem 'actionpack-action_caching'
+
 gem 'bcrypt'
 gem 'bootstrap-sass'
 gem 'jquery-rails'

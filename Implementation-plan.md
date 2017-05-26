@@ -2,7 +2,7 @@
 
 ## To-do list
 * Urgent
-1. access right
+1. Lang-setting
 
 * Little and quickly
 1. i18n
@@ -10,7 +10,6 @@
 * Earlier is better
   1. Reset password;
   2. Revoke login status after reset password or logout from member center;
-  3. Use cache;
   4. Key information encryption in responding data;
 
 * Important but need time to do 
