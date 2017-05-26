@@ -36,5 +36,10 @@
   <strong>Callback URL:</strong>
   <%= @service_provider.callback_url %>
 </p>
+
+<p>
+  <strong>SALT:</strong>
+  <%= @service_provider.salt %>
+</p>
 <%= link_to 'Edit', edit_service_provider_path(@service_provider) %> |
 <%= link_to 'Back', service_providers_path %>

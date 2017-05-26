@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525102133) do
+ActiveRecord::Schema.define(version: 20170526072913) do
 
   create_table "service_providers", force: :cascade do |t|
     t.string "app_id", null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20170525102133) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "callback_url", null: false
+    t.string "salt"
     t.index ["app_id"], name: "index_service_providers_on_app_id", unique: true
     t.index ["user_id"], name: "index_service_providers_on_user_id"
   end
