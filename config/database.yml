@@ -22,4 +22,7 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  database: localhost:5432/member_center
+  user: <%= ENV["PG_USER"] %>
+  password: <%= ENV["PG_PASSWORD"] %>
