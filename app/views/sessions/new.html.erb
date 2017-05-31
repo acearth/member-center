@@ -9,8 +9,18 @@
         <%= f.password_field :password, class: 'form-control' %>
         <%= f.submit "Log in", class: "btn btn-primary btn-block" %>
         <%= f.hidden_field :app_id, :value => params[:app_id] %>
+        </br>
+        </br>
+        </br>
+        <!--<%= f.submit "Log in", class: "btn btn-primary btn-block" %>-->
+        <!--<button class: 'btn-->
+        <button class="btn btn-default btn-block"
+        ><a href=<%= '/users/new' %>>New User? Register Now!</a></button>
     <% end %>
   </div>
+  <div>
+  </div>
+
 </div>
 
 <br>
