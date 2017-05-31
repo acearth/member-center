@@ -31,6 +31,10 @@
 
 en:
   member-center: Talents Center
+  home_page: Home
+  help: Help
+  login: Login
+  register: register
 
   user_name: username
   emp_id: employee ID

@@ -2,6 +2,12 @@ jp:
 #  contact: 联系人
   member-center: 才能センター
   no_access_right: このページへのアクセス権がありません
+  home: ホームページ
+  help: 助けて
+  login: ログイン
+  register: 登録
+  password: パスワード
+  user_name: ユーザー名
 
 #  users: 用户
 #  user_name: 用户名
