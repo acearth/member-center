@@ -9,6 +9,8 @@ jp:
   password: パスワード
   user_name: ユーザー名
   service_provider: サービスプロバイダ
+  account: アカウント
+  feedback: フィードバック
 
 #  users: 用户
 #  user_name: 用户名

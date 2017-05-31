@@ -9,7 +9,7 @@
       <th>Auth level</th>
       <th>Credential</th>
       <th>Secret key</th>
-      <th>User</th>
+      <th>Contact</th>
       <th>Description</th>
       <th colspan="3"></th>
     </tr>
@@ -22,7 +22,7 @@
         <td><%= service_provider.auth_level %></td>
         <td><%= service_provider.credential %></td>
         <td><%= service_provider.secret_key %></td>
-        <td><%= service_provider.user %></td>
+        <td><%= link_to service_provider.user.user_name, user_path(service_provider.user), method: :get %></td>
         <td><%= service_provider.description %></td>
         <td><%= link_to 'Show', service_provider %></td>
         <td><%= link_to 'Edit', edit_service_provider_path(service_provider) %></td>
