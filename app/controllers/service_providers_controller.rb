@@ -80,7 +80,7 @@ class ServiceProvidersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_provider_params
-      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url)
+      params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url, :revoke_url)
     end
 
   def create_params

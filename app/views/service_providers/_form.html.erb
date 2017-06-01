@@ -25,6 +25,10 @@
       <%= form.label :callback_url %>
       <%= form.text_field :callback_url, id: :service_provider_callback_url %>
     </div>
+    <div class="field">
+      <%= form.label :revoke_url %>
+      <%= form.text_field :revoke_url, id: :service_provider_revoke_url %>
+    </div>
 
     <div class="actions">
       <%= form.submit %>
