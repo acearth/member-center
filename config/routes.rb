@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # resources :feedbacks
-  root 'sessions#new'
+  root 'static_pages#home'
   get '/login', to: 'sessions#new'
   post '/login', to:'sessions#create'
   delete '/logout', to: 'sessions#destroy'
@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   get 'tickets/authenticate'
 
+  get 'home' => 'static_pages#home'
   get    'help'    => 'static_pages#help'
-  get    'about'   => 'static_pages#about'
   get    'contact' => 'static_pages#contact'
   get '/feedbacks/new' => 'feedbacks#new'
   get '/feedbacks' => 'feedbacks#index'
