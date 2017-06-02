@@ -1,5 +1,140 @@
 <h2>Introducing GeniusCenter Authentication Service into Your Applications</h2>
-<h3>1. Work Procedure</h3>
+<h3>1. API</h3>
+<h4>1.1 Login link for third-party applcations</h4>
+<li class="list-group-item">GET /login</li>
+<br>
+<strong>Parameters</strong>
+<br>
+<table class="table">
+  <tr>
+    <td>Name</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td>app_id</td>
+    <td>identify login request source. When user logged in, the request will redirect to corresponding application</td>
+  </tr>
+</table>
+<strong>Response</strong>
+<br>
+Login page of GeniusCenter
+<br>
+<br>
+
+<h4>1.2 Ticket authentication</h4>
+<li class="list-group-item">POST /auth</li>
+<br>
+<strong>Parameters</strong>
+<br>
+<table class="table">
+  <tr>
+    <td>Name</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td>app_id</td>
+    <td>See above</td>
+  </tr>
+  <tr>
+    <td>ticket</td>
+    <td>issued by GeniusCenter</td>
+  </tr>
+  <tr>
+    <td>seq</td>
+    <td>sequential number, defined by SP. This parameter is important for avoiding replay attack</td>
+  </tr>
+  <tr>
+    <td>sign</td>
+    <td>Hex form of MD5 digest of parameters and secret</td>
+  </tr>
+</table>
+<strong>Response</strong>
+<br>
+Return user information in json format if successfully authenticated.
+<pre>
+  <code>{
+    seq: suquential number in member center,
+    status:{
+        code: 0 || 999< 0 stands for success>,
+        msg: returned message conclusion
+    },
+    user:{  // optional, if request is bad, not 'user' field there.
+        username: registered user name for login, may same as email prefix,
+        employee_id: employee ID,
+        email: user's email address
+    },
+    sign: MD5 of (seq, status, user information, credential).to_hex_form
+
+  }
+  </code>
+</pre>
+
+<h4>1.3 Login directly from third-party application </h4>
+This API is a trade-off for some hard-to-modify applications. <br>
+SP get user user_name and password and then send Login request directly to GeniusCenter.<br>
+Not recommend to use.<br>
+<li class="list-group-item">POST /login</li>
+<br>
+<strong>Parameters</strong>
+<br>
+<table class="table">
+  <tr>
+    <td>Name</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td>app_id</td>
+    <td>See above</td>
+  </tr>
+  <tr>
+    <td>user_name</td>
+    <td>user's user_name</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>user's password</td>
+  </tr>
+  <tr>
+    <td>sign</td>
+    <td>See above</td>
+  </tr>
+</table>
+<strong>Response</strong>
+<br>
+<pre>
+  <code>
+<strong>Example: Success </strong>
+    {
+    seq: 1234222211,
+    status: {
+        code: 0,
+        msg:'success'
+    },
+user: {
+    username: 'arthur',
+    employee_id: 'C214',
+    email: 'an_x@worksap.co.jp'
+    },
+sign: 'CAFEBABE12345678'
+}
+<strong>Example: Failed</strong>
+
+{
+    seq: 23423423424,
+    status: {
+        code: 999,
+        msg: 'Invalid sign'
+    },
+    sign:'E1781234DAE'
+}
+  </code>
+</pre>
+<br>
+<br>
+
+
+
+<h3>2. Work Procedure</h3>
 The following picture shows a brief work procedure of authenticating by GeniusCenter
 <%= link_to image_tag("login-process.png", alt: "Rails logo") %>
 <h2>User Login Steps</h2>
@@ -15,4 +150,5 @@ The following picture shows a brief work procedure of authenticating by GeniusCe
 10. APP render user welcome page;<br>
 
 <h3>See more at <a href="https://github.com/acearth/member-center">Github</a></h3>
+
 
