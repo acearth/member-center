@@ -9,10 +9,10 @@
         <%= f.submit t('login'), class: "btn btn-primary btn-block" %>
         <%= f.hidden_field :app_id, :value => params[:app_id] %>
         </br>
-        </br>
-        <button class="btn btn-default btn-block"><a href=<%= '/users/new' %>>
-          <%= t('register') %>
-        </a></button>
+        <span>
+        <button class="btn btn-default"><a href=<%= '/users/new' %>> <%= t('register') + ' new user' %></a></button>
+        <button class="btn btn-link btn-block pull-left"><a href=<%= '/reset_password' %>> <%= t('forget_password?') %></a></button>
+        </span>
     <% end %>
   </div>
   <div>
