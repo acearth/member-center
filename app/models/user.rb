@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 	enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4}
 	attr_accessor :remember_token
+	after_create {UserSecurity.create(user: self)}
 
 	has_secure_password
 
@@ -34,4 +35,5 @@ class User < ApplicationRecord
 			SecureRandom.urlsafe_base64
 		end
 	end
+
 end

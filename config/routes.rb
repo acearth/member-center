@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'reset_password' => 'reset_password#new'
+  put 'reset_password' => 'reset_password#create'
+
   # resources :feedbacks
   root 'static_pages#home'
   get '/login', to: 'sessions#new'

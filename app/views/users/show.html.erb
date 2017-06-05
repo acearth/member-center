@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <p>
   <strong><%= t('user_name') %></strong>
   <%= @user.user_name %>
@@ -19,6 +18,14 @@
   <strong><%= t('email') %></strong>
   <%= @user.email %>
 </p>
-
+<p>
+  <% if @qr_code %>
+    <h1>
+      <strong>Please scan following QR code for 2FA</strong>
+    </h1>
+    <%= raw @qr_code.as_svg %>
+    <% @qr_code = nil %>
+<% end %>
+</p>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
