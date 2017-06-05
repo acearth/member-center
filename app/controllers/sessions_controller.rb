@@ -9,8 +9,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_user_name(params[:session][:user_name])
-    if user && user.authenticate(params[:session][:password])
+    user = User.find_by_user_name(params[:user_name] || params[:session][:user_name])
+    if user && user.authenticate(params[:password] || params[:session][:password])
+      return render json: to_response('success', user) if params[:direct_login] || params[:session][:direct_logint]
       log_in user
       remember user
       redirect_to login_back(user)
@@ -48,5 +49,21 @@ class SessionsController < ApplicationController
     else
       return member
     end
+  end
+
+  def to_response(msg, user = nil)
+    seq = Time.now.to_i #TODO-improve
+    code = msg.downcase == 'success' ? 0 : 999
+    for_sign = [seq, code, msg].map(&:to_s).join('-') + '-'
+    for_sign +=[user.user_name, user.emp_id, user.email].map(&:to_s).join('-') if user
+    signature = Digest::MD5::hexdigest(for_sign)
+    res = {seq: seq,
+           status: {code: code,
+                    msg: msg}
+    }
+    res.merge!({user: {user_name: user.user_name,
+                       employee_id: user.emp_id,
+                       email: user.email}}) if user
+    res.merge ({sign: signature})
   end
 end
