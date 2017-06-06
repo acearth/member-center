@@ -19,8 +19,12 @@ class UserMailer < ApplicationMailer
   def password_reset(user, link)
     @greeting = "Hi"
     @link = link
+    mail(to: user.email,
+         subject: 'Genius Center')
+  end
 
-    mail to: user.email,
-         subject: :password_reset
+  def bonjour
+    mail(to: 'gc2017@mt2015.com',
+         subject: 'bonjour SALUTE')
   end
 end

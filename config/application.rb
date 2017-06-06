@@ -16,15 +16,6 @@ module MemberCenter
     # -- all .rb files in that directory are automatically loaded.
 
 
-    # Configuration for sending mail
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-        address: ENV['SMTP_HOST'],
-        port: ENV['SMTP_PORT'],
-        user_name: ENV['SMTP_USER_NAME'],
-        password: ENV['SMTP_PASSWORD'],
-        # authentication: 'plain',
-        enable_starttls_auto: true
-    }
+
   end
 end
