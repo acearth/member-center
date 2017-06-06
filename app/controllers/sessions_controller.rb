@@ -10,13 +10,17 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by_user_name(params[:user_name] || params[:session][:user_name])
-    if user && user.authenticate(params[:password] || params[:session][:password])
+    if user && user.valid_role? && user.authenticate(params[:password] || params[:session][:password])
+      if user.role == :inactive
+        flash[:warning] = 'User not activated, please check your mailbox.'
+        redirect_to root_path
+      end
       return render json: to_response('success', user) if params[:direct_login] || params[:session][:direct_logint]
       log_in user
       remember user
       redirect_to login_back(user)
     else
-      flash[:warning] = I18n.t('wrong_user_or_password')
+      flash[:warning] = I18n.t('wrong_user_or_password') + ", Or, your account is not activated."
       render 'new'
     end
   end

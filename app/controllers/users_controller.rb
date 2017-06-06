@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include CommonUtils
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, only: [:edit, :update]
   before_action :correct_user, only: [:edit, :update]
@@ -32,8 +33,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    @user.role = 0 # init as ordinary user
-
+    @user.credential = SecureRandom.base58(32)
+    @user.role = :inactive
+    UserMailer.activate(@user, '').deliver_now
     respond_to do |format|
       if @user.save
         format.html {redirect_to @user, notice: 'User was successfully created.', locals: {info1: 'hello world'}}
@@ -69,6 +71,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def activate
+    @user = User.find(params[:id])
+    if activate_token == params[:activate_token]
+      @user.role = 0
+      @user.save
+      flash[:notice] = 'Your account is activated successfully'
+      redirect_to login_path
+    else
+      flash[:warning] = 'Failed to activate user'
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
@@ -84,5 +98,10 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
+  end
+
+  # TODO-impl
+  def activate_token
+    @user.user_name
   end
 end
