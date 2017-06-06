@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+	validates :user_name, format: {with: /\A[a-zA-Z0-9]+\Z/}, length: {minimum: 3}, on: :create
 	enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4}
 	attr_accessor :remember_token
 	after_create {UserSecurity.create(user: self)}
@@ -35,5 +36,4 @@ class User < ApplicationRecord
 			SecureRandom.urlsafe_base64
 		end
 	end
-
 end
