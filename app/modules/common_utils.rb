@@ -19,4 +19,23 @@ module CommonUtils
     url = 'http://' + url unless url.start_with?('http://')
     url.include?('?') ? url : url + '?'
   end
+
+  def signature(*params)
+    puts '-------'
+    puts params.join('-')
+    puts '-------'
+    p Digest::MD5::hexdigest(params.join('-'))
+  end
+
+  def valid_sign?(*params, got_sign)
+    puts '==========='
+    puts params.join('-')
+    puts '==========='
+    puts got_sign
+    expected = Digest::MD5::hexdigest(params.join('-'))
+    puts expected
+    puts expected == got_sign.to_s
+    puts '=-=-=-='
+    expected == got_sign.to_s
+  end
 end
