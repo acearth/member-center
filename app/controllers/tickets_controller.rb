@@ -5,7 +5,10 @@ class TicketsController < ApplicationController
   before_action :ticket_params
 
   def authenticate
-    if valid_sign?
+    if valid_sign?(@service_provider.app_id,
+                   params[:ticket],
+                   @service_provider.credential,
+                   params[:sign])
       ticket = Ticket.recover(@service_provider, params[:ticket])
       if ticket.blank? || ticket.expired?
         render json: to_response("Invalid ticket")
@@ -19,8 +22,13 @@ class TicketsController < ApplicationController
 
   private
 
-  def valid_sign?
-    params[:sign] == Digest::MD5::hexdigest("#{@service_provider.app_id}-#{params[:ticket]}-#{@service_provider.credential}")
+  def valid_sign?(*info, got_sign)
+    expected = Digest::MD5::hexdigest(info.join('-'))
+    return true if expected == got_sign.to_s
+    puts 'Sign Validation for:  ' + info.join(' - ')
+    puts 'Expected: ' + expected
+    puts 'GOT:      ' + got_sign
+    false
   end
 
   def to_response(msg, user = nil)
@@ -48,6 +56,11 @@ class TicketsController < ApplicationController
 
   def set_service_proivider
     @service_provider = ServiceProvider.find_by_app_id(params[:app_id])
-    render status: 406 unless @service_provider
+    unless @service_provider
+      puts "app_id | SP : #{app_id} | #{@service_provider.id}"
+      flash[:warning] = 'No app_id parameter existed.'
+      redirect_to login_path
+    end
   end
+
 end
