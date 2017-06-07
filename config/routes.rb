@@ -24,4 +24,11 @@ Rails.application.routes.draw do
   resources :service_providers
   resources :password_resets, only: [:new, :create]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  namespace :api do
+    namespace :v1 do
+      post 'login', to: 'genius#login'
+      post 'auth', to: 'genius#authenticate'
+    end
+  end
 end
