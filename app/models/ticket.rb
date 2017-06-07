@@ -6,7 +6,7 @@ class Ticket < ApplicationRecord
   belongs_to :user
 
   def par_value
-    aes_encrypt(service_provider.secret_key, service_provider.salt+ id.to_s)
+    aes_encrypt(service_provider.secret_key, service_provider.salt.to_s + id.to_s)
   end
 
   # sign = MD5(ticket.value, credential)

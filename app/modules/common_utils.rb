@@ -28,14 +28,11 @@ module CommonUtils
   end
 
   def valid_sign?(*params, got_sign)
-    puts '==========='
-    puts params.join('-')
-    puts '==========='
-    puts got_sign
     expected = Digest::MD5::hexdigest(params.join('-'))
-    puts expected
-    puts expected == got_sign.to_s
-    puts '=-=-=-='
-    expected == got_sign.to_s
+    return true if expected == got_sign.to_s
+    puts 'Sign Validation for:  ' + params(' ')
+    puts 'Expected: ' + expected
+    puts 'GOT:      ' + got_sign
+    false
   end
 end
