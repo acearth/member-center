@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_user_name(params[:session][:user_name])
     if user && user.authenticate(params[:session][:password])
-      if user.invalid_role? || !user.user_name.start_with?('test_')
+      if user.invalid_role? || !user.user_name.start_with?('test')
         flash[:warning] = 'User not activated'
         redirect_to root_path
       else
