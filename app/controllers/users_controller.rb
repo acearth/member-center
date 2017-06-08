@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  include CommonUtils
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, only: [:edit, :update]
   before_action :correct_user, only: [:edit, :update]
@@ -35,9 +34,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.credential = SecureRandom.base58(32)
     @user.role = :inactive
-    UserMailer.activate(@user).deliver_later
     respond_to do |format|
       if @user.save
+        UserMailer.activate(@user, activate_user_url(@user)).deliver_later
         format.html {redirect_to @user, notice: 'User was successfully created.', locals: {info1: 'hello world'}}
         format.json {render :show, status: :created, location: @user}
       else
@@ -73,7 +72,7 @@ class UsersController < ApplicationController
 
   def activate
     @user = User.find(params[:id])
-    if UserMailer.valid_email_token('activate', params[:activate_token], @user)
+    if CommonUtils.valid_email_token?('activate', params[:activate_token], @user)
       @user.role = 0
       @user.save!
       flash[:notice] = 'Your account is activated successfully'

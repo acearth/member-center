@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   include SessionsHelper
-  include CommonUtils
 
   before_action :set_third_party, only: [:new, :create]
 
@@ -9,18 +8,18 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_user_name(params[:user_name] || params[:session][:user_name])
-    if user && user.valid_role? && user.authenticate(params[:password] || params[:session][:password])
-      if user.role == :inactive
-        flash[:warning] = 'User not activated, please check your mailbox.'
+    user = User.find_by_user_name(params[:session][:user_name])
+    if user && user.authenticate(params[:session][:password])
+      if user.valid_role? || user.user_name.start_with?('test_')
+        log_in user
+        remember user
+        redirect_to login_back(user)
+      else
+        flash[:warning] = 'User not activated'
         redirect_to root_path
       end
-      return render json: to_response('success', user) if params[:direct_login] || params[:session][:direct_logint]
-      log_in user
-      remember user
-      redirect_to login_back(user)
     else
-      flash[:warning] = I18n.t('wrong_user_or_password') + ", Or, your account is not activated."
+      flash[:warning] = I18n.t('wrong_user_or_password')
       render 'new'
     end
   end
@@ -53,21 +52,5 @@ class SessionsController < ApplicationController
     else
       return member
     end
-  end
-
-  def to_response(msg, user = nil)
-    seq = Time.now.to_i #TODO-improve
-    code = msg.downcase == 'success' ? 0 : 999
-    for_sign = [seq, code, msg].map(&:to_s).join('-') + '-'
-    for_sign +=[user.user_name, user.emp_id, user.email].map(&:to_s).join('-') if user
-    signature = Digest::MD5::hexdigest(for_sign)
-    res = {seq: seq,
-           status: {code: code,
-                    msg: msg}
-    }
-    res.merge!({user: {user_name: user.user_name,
-                       employee_id: user.emp_id,
-                       email: user.email}}) if user
-    res.merge ({sign: signature})
   end
 end

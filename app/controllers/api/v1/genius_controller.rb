@@ -55,7 +55,7 @@ class Api::V1::GeniusController < ApplicationController
     code = msg.downcase == 'success' ? 0 : 999
     for_sign = [seq, code, msg].map(&:to_s).join('-') + '-'
     for_sign +=[user.user_name, user.emp_id, user.email].map(&:to_s).join('-') if user
-    signature = Digest::MD5::hexdigest(for_sign)
+    signature = CommonUtils.md5_sign(for_sign)
     res = {seq: seq,
            status: {code: code,
                     msg: msg}

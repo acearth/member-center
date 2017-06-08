@@ -1,5 +1,4 @@
 class PasswordResetsController < ApplicationController
-  include CommonUtils
   include ActiveRecord::Validations
 
   validates :password, presence: true, confirmation: true, on: :update
@@ -14,7 +13,7 @@ class PasswordResetsController < ApplicationController
   def create
     if params[:reset_form][:reset_way] == 'email'
       if user = User.find_by_email(params[:reset_form][:email])
-        UserMailer.password_reset(user).deliver_later
+        UserMailer.password_reset(user,edit_password_resets_url).deliver_later
         flash[:warning] = 'Password reset email has been sent. Please check your mailbox.'
       else
         flash[:warning] = 'No corresponding user found.'
@@ -55,6 +54,6 @@ class PasswordResetsController < ApplicationController
 
   def set_user(info)
     user = User.find_by_email(e)
-    user if UserMailer.valid_email_token('password_reset', info[:password_reset_token], user)
+    user if CommonUtils.valid_email_token?('password_reset', info[:password_reset_token], user)
   end
 end
