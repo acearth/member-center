@@ -22,11 +22,13 @@ class User < ApplicationRecord
   end
 
   def admin?
-    @role == :admin
+    _role = role.to_sym
+    _role == :admin
   end
 
-  def valid_role?
-    (@role != :inactive) || (@role != :resigned)
+  def invalid_role?
+    _role = role.to_sym
+    _role == :inactive || _role == :resigned
   end
 
   class << self
