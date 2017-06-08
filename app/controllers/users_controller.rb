@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.credential = SecureRandom.base58(32)
     @user.role = :inactive
-    UserMailer.activate(@user, '').deliver_now
+    UserMailer.activate(@user).deliver_later
     respond_to do |format|
       if @user.save
         format.html {redirect_to @user, notice: 'User was successfully created.', locals: {info1: 'hello world'}}
@@ -73,14 +73,14 @@ class UsersController < ApplicationController
 
   def activate
     @user = User.find(params[:id])
-    if activate_token == params[:activate_token]
+    if UserMailer.valid_email_token('activate', params[:activate_token], @user)
       @user.role = 0
-      @user.save
+      @user.save!
       flash[:notice] = 'Your account is activated successfully'
-      redirect_to login_path
     else
       flash[:warning] = 'Failed to activate user'
     end
+    redirect_to login_path
   end
 
   private
