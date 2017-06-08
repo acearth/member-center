@@ -12,7 +12,7 @@ class Api::V1::GeniusController < ApplicationController
       render json: to_response('Some params are lost') and return
     elsif @service_provider.nil?
       render json: to_response('ServiceProvider error') and return
-    elsif not valid_sign?(params[:app_id], params[:user_name], params[:password], @service_provider.credential, params[:sign])
+    elsif not CommonUtils.valid_sign?(params[:app_id], params[:user_name], params[:password], @service_provider.credential, params[:sign])
       render json: to_response('Invalid request: parameter error') and return
     end
 
@@ -36,7 +36,7 @@ class Api::V1::GeniusController < ApplicationController
       render json: to_response('Some params are lost') and return
     elsif @service_provider.nil?
       render json: to_response('ServiceProvider error') and return
-    elsif not valid_sign?(@service_provider.app_id, params[:ticket], @service_provider.credential, params[:sign])
+    elsif not CommonUtils.valid_sign?(@service_provider.app_id, params[:ticket], @service_provider.credential, params[:sign])
       render json: to_response("Bad request: Invalid parameter(s)") and return
     end
 
