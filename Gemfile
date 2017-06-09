@@ -47,7 +47,6 @@ gem 'jbuilder', '~> 2.5'
 #
 
 group :production do
-  gem 'dotenv'
   gem 'pg'
 end
 
