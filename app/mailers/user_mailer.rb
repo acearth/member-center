@@ -30,7 +30,7 @@ class UserMailer < ApplicationMailer
     mail(to: user.email, subject: 'Password Reset | Genius Center')
   end
 
-  def bonjour
-    mail(to: 'gc2017@mt2015.com', subject: 'bonjour SALUTE')
+  def bonjour(to = 'an_x@worksap.co.jp')
+    mail(to: to, subject: "#{Time.now.to_s} | GeniusCenterTest", body: "THIS IS BONJOUR MAIL")
   end
 end
