@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    @user = current_user
     redirect_to @user and return unless @user.admin?
     @users = User.all
   end
