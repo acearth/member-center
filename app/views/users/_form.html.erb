@@ -13,7 +13,8 @@
 
     <div class="field">
       <%= form.label t('user_name') %>
-      <%= form.text_field :user_name, id: :user_user_name %>
+
+      <%= form.text_field :user_name, id: :user_user_name, placeholder: 'user_name only can contains number,letter and ".", such as "hero.wap"' %>
     </div>
 
     <div class="field">
@@ -28,7 +29,7 @@
 
     <div class="field">
       <%= form.label t('email') %>
-      <%= form.text_field :email, id: :user_email %>
+      <%= form.text_field :email, id: :user_email, placeholder: 'your Worksap mail, end with "@worksap.co.jp"' %>
     </div>
 
 

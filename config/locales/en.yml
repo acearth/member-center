@@ -46,6 +46,7 @@ en:
   wrong_user_or_password: User not exist or password is wrong.
   no_access_right: You don't have access right to this page.
   account: Account
+  user_name_hint: user_name can only contains number, letter and ".", and "." cannot occurr at boundary
 
 
 

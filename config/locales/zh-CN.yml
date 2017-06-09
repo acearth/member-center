@@ -24,5 +24,6 @@ zh-CN:
 
   account: 账号
   feedback: 反馈
+  user_name_hint: 用户名只能包含数字、字母和".", "."只能出现在中间位置.
 
 

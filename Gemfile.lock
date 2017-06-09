@@ -106,6 +106,7 @@ GEM
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     pg (0.20.0)
+    phonelib (0.6.12)
     public_suffix (2.0.5)
     puma (3.8.2)
     rack (2.0.3)
@@ -213,6 +214,7 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   pg
+  phonelib
   puma (~> 3.7)
   rails (~> 5.1.1)
   rotp

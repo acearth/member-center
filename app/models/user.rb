@@ -1,9 +1,10 @@
 class User < ApplicationRecord
-  validates :user_name, format: {with: /\A[a-zA-Z0-9]+\Z/}, length: {minimum: 3}, on: :create
+  # validates :mobile_phone, phone: true #SHUT DOWN temporarily
+  validates :user_name, format: {with: /\A([a-zA-Z0-9]+\.?)*[a-zA-Z0-9]+\z/, message: I18n.t('user_name_hint')}, length: {minimum: 3}, on: [:create, :save, :update]
+  validates :email, format: {with: /(\w+@worksap\.co\.jp)|(\w+@mt2015\.com)/, message: 'No Worksap Email'}, uniqueness: true
   enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4}
   attr_accessor :remember_token
   after_create {UserSecurity.create(user: self)}
-
   has_secure_password
 
 

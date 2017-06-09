@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 <p>
   <strong><%= t('user_name') %></strong>
   <%= @user.user_name %>
@@ -21,9 +20,11 @@
 <p>
   <% if @qr_code %>
     <h1>
-      <strong>Please scan following QR code for 2FA</strong>
+      <strong>Please scan following QR code for 2FA if you have Auth App, such as GoogleAuthenticator</strong>
     </h1>
-    <%= raw @qr_code.as_svg %>
+    <div class="center">
+      <%= raw @qr_code.as_svg %>
+    </div>
     <% @qr_code = nil %>
 <% end %>
 </p>

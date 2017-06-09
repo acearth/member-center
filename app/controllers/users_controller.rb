@@ -1,18 +1,19 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:edit, :update, :index]
   before_action :correct_user, only: [:edit, :update]
 
   # GET /users
   # GET /users.json
   def index
+    redirect_to @user and return unless @user.admin?
     @users = User.all
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    if notice == 'User was successfully created.'
+    if notice&.include?('successfully created')
       @qr_code = RQRCode::QRCode.new(UserSecurity.find_by_user_id(@user.id).render_otp_key, size: 10, level: :h)
     else
       @qr_code = nil
@@ -37,7 +38,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         UserMailer.activate(@user, activate_user_url(@user)).deliver_later
-        format.html {redirect_to @user, notice: 'User was successfully created.', locals: {info1: 'hello world'}}
+        format.html {redirect_to @user, notice: 'User was successfully created. Please check your mailbox.'}
         format.json {render :show, status: :created, location: @user}
       else
         format.html {render :new}
