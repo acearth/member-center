@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  namespace :admin do
+    get 'users/index'
+  end
+
   # resources :feedbacks
   root 'static_pages#home'
   get '/login', to: 'sessions#new'
