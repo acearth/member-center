@@ -7,6 +7,7 @@ end
 
 ruby '2.4.1'
 gem 'dotenv-rails'
+
 gem 'rotp'
 gem 'rqrcode'
 
@@ -46,6 +47,7 @@ gem 'jbuilder', '~> 2.5'
 #
 
 group :production do
+  gem 'dotenv'
   gem 'pg'
 end
 

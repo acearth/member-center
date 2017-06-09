@@ -10,8 +10,8 @@
         <%= f.hidden_field :app_id, :value => params[:app_id] %>
         </br>
         <span>
-        <button class="btn btn-default"><a href=<%= '/users/new' %>> <%= t('register') + ' new user' %></a></button>
-        <button class="btn btn-link btn-block pull-left"><a href=<%= new_password_reset_path %>> <%= t('forget_password?') %></a></button>
+          <span class="pull-left"> <%= link_to t('register'), new_user_url %></span>
+          <span class="pull-right"> <%= link_to t('forget_password?'), new_password_reset_url %></span>
         </span>
     <% end %>
   </div>
