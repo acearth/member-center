@@ -32,4 +32,6 @@ Rails.application.routes.draw do
       get 'bonjour', to: 'genius#bonjour'
     end
   end
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
 end
