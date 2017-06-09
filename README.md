@@ -1,3 +1,19 @@
+# Requirements
+1. Redis
+2. Sidekiq
+3. PostgreSQL (production)
+
+## Start service
+
+0. redis-server 
+1. bundle exec sidekiq
+
+
+
+
+
+
+
 # MEMBER CENTER for CAS
 # User Login Steps
 1. User open an internal website(APP) to login;
