@@ -7,6 +7,7 @@ end
 
 ruby '2.4.1'
 
+gem 'http_accept_language'
 gem 'phonelib'
 gem 'sidekiq'
 gem 'rotp'
