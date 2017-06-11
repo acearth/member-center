@@ -2,7 +2,6 @@ class Admin::UsersController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user
 
-  # TODO-impl: only admin ca
   def index
     @users = User.all
     render 'users/index'
