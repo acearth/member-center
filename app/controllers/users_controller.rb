@@ -26,7 +26,8 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
+  # TODO-proof: Email can not be changed
+  # GET /users/1/edi
   def edit
   end
 
