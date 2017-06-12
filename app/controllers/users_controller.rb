@@ -53,7 +53,19 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      changeable_params = params.require(:user).permit(:mobile_phone, :emp_id, :password, :password_new)
+      if changeable_params[:password_new].present?
+        if @user.authenticate(changeable_params[:password])
+          changeable_params[:password] = changeable_params.delete :password_new
+        else
+          flash[:warning] = 'Old password wrong!'
+          redirect_to edit_user_path and return
+        end
+      else
+        changeable_params.delete :password
+        changeable_params.delete :password_new
+      end
+      if @user.update(changeable_params)
         format.html {redirect_to @user, notice: 'User was successfully updated.'}
         format.json {render :show, status: :ok, location: @user}
       else
