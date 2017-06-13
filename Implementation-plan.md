@@ -1,5 +1,11 @@
 # Implementation Plan for Member Center
 
+
+1. will-paginate
+2. fakers;
+3. fixtures > test
+4. User link expire after used
+5. mailer preview
 ## To-do list
 * Urgent
 1. Lang-setting
