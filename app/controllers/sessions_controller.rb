@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
   before_action :set_third_party, only: [:new, :create]
 
   def new
-    redirect_to login_back(current_user) if current_user
+    redirect_to login_back(current_user) and return if current_user
+    render layout: false
   end
 
   def create
