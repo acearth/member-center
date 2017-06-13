@@ -9,8 +9,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by_user_name(params[:session][:user_name])
-    if user && user.authenticate(params[:session][:password])
+    info = params.require(:session).permit(:user_name, :password, :app_id)
+    user = User.find_by_user_name(info[:user_name])
+    if user && user.authenticate(info[:password])
       if  !user.invalid_role? || user.user_name.start_with?('test')
         log_in user
         remember user
@@ -39,10 +40,6 @@ class SessionsController < ApplicationController
       @service_provider = ServiceProvider.find_by_app_id(app_id)
       render status: 406 unless @service_provider
     end
-  end
-
-  def login_params(params)
-    params.require(params[:session]).permit(:user_name, :password, :app_id)
   end
 
   def login_back(member)
