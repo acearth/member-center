@@ -36,7 +36,7 @@ class PasswordResetsController < ApplicationController
 
 
   def update
-    @user = set_email_user(params[:reset_info])
+    @user = set_user(params[:reset_info])
     if @user
       @user.update(password: params[:reset_info][:password])
     else
@@ -53,7 +53,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def set_user(info)
-    user = User.find_by_email(e)
-    user if CommonUtils.valid_email_token?('password_reset', info[:password_reset_token], user)
+    user = User.find_by_email(info[:email])
+    user && CommonUtils.valid_email_token?('password_reset', info[:reset_token], user) && user
   end
 end

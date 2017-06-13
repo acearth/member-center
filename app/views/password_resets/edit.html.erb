@@ -1,5 +1,4 @@
-<h1>PasswordResets#edit</h1>
-<p>Find me in app/views/password_resets/edit.html.erb</p>
+<h1>PasswordResets | Input your new password</h1>
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
@@ -11,7 +10,7 @@
         <%= f.password_field :password_confirmation, class: 'form-control' %>
 
         <%= f.hidden_field :sign, value: params[:sign] %>
-        <%= f.hidden_field :reset_token, value: params[:reset_token] %>
+        <%= f.hidden_field :reset_token, value: params[:password_reset_token] %>
         <%= f.hidden_field :email, value: params[:email] %>
         <%= f.submit "Submit", class: "btn btn-primary" %>
     <% end %>
