@@ -1,20 +1,9 @@
 <%= form_with(model: user, local: true) do |form| %>
-    <% if user.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-          <ul>
-            <% user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
-
+    <%= render 'shared/error_messages' %>
     <div class="field">
       <%= form.label t('user_name') %>
 
-      <%= form.text_field :user_name, id: :user_user_name, placeholder: 'user_name only can contains number,lower-case letters and ".", such as "hero.wap"' %>
+      <%= form.text_field :user_name, class: 'form-control', id: :user_user_name, placeholder: 'user_name only can contains number,lower-case letters and ".", such as "hero.wap"' %>
     </div>
 
     <div class="field">
