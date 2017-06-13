@@ -14,6 +14,7 @@
         <%= f.text_field :otp_code, class: 'form-control' %>
         <%= f.label :new_password %>
         <%= f.password_field :new_password, class: 'form-control' %>
+        <span>Password at least should have 6 chars</span>
 
         <%= f.hidden_field :reset_way, value: 'otp' %>
         <%= f.submit "Submit", class: "btn btn-primary" %>

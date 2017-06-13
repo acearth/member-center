@@ -14,7 +14,7 @@
     <div class="field">
       <%= form.label t('user_name') %>
 
-      <%= form.text_field :user_name, id: :user_user_name, placeholder: 'user_name only can contains number,letter and ".", such as "hero.wap"' %>
+      <%= form.text_field :user_name, id: :user_user_name, placeholder: 'user_name only can contains number,lower-case letters and ".", such as "hero.wap"' %>
     </div>
 
     <div class="field">
@@ -36,6 +36,7 @@
     <div class="field">
       <%= form.label t('password') %>
       <%= form.password_field :password, id: :user_password %>
+      <span>Password at least should have 6 chars</span>
     </div>
 
     <div class="actions">
