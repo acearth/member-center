@@ -7,6 +7,8 @@ end
 
 ruby '2.4.1'
 
+gem 'will_paginate', '3.1'
+gem 'will_paginate-bootstrap'
 gem 'redis-rails'
 gem 'http_accept_language'
 gem 'phonelib'

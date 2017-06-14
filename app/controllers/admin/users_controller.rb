@@ -2,8 +2,10 @@ class Admin::UsersController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user
 
+  WillPaginate.per_page = 10
+  
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page])
     render 'users/index'
   end
 
