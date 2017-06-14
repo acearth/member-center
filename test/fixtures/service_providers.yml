@@ -4,16 +4,18 @@ one:
   app_id: MyString1
   auth_level: 1
   credential: MyString
-  secret_key: MyString
+  secret_key: worldhello123456
   user: one
   description: MyString
   callback_url: http://www.cc
+  salt: info000
 
 two:
   app_id: MyString2
   auth_level: 1
   credential: MyString
-  secret_key: MyString
+  secret_key: worldhello654321
   user: two
   description: MyString
   callback_url: http://www.cc
+  salt: info001

@@ -1,5 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+
 one:
   user_name: MyString001
   emp_id: MyString
@@ -7,7 +8,7 @@ one:
   email: m1@mt2015.com
   credential: helloworld123456
   role: 0
-  password_digest: MyString
+  password_digest: $2a$10$4ASFq1PPby0Tn.n68Wu6ZeseSO0/.2Qixr2au4MX2oyy6XMqQAKxS
 
 two:
   user_name: MyString002
@@ -16,4 +17,5 @@ two:
   email: m2@mt2015.com
   credential: helloworld654321
   role: 0
-  password_digest: MyString
+  password_digest: $2a$10$4ASFq1PPby0Tn.n68Wu6ZeseSO0/.2Qixr2au4MX2oyy6XMqQAKxS
+  #$2a$10$4ASFq1PPby0Tn.n68Wu6ZeseSO0/.2Qixr2au4MX2oyy6XMqQAKxS <--'password'

@@ -18,7 +18,7 @@ class Api::V1::GeniusController < ApplicationController
 
     user = User.find_by_user_name(params[:user_name])
     if user && user.authenticate(params[:password])
-      render json: (user.valid_role? ? to_response('success', user) : to_response('User needs to be activated'))
+      render json: (user.invalid_role? ? to_response('User needs to be activated') : to_response('success', user))
     elsif user.nil?
       render to_response "User not exist:#{params[:user_name]}"
     else
