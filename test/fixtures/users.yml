@@ -4,16 +4,16 @@ one:
   user_name: MyString001
   emp_id: MyString
   mobile_phone: MyString
-  email: MyString
-  credential: MyString
-  role: 1
+  email: m1@mt2015.com
+  credential: helloworld123456
+  role: 0
   password_digest: MyString
 
 two:
   user_name: MyString002
   emp_id: MyString
   mobile_phone: MyString
-  email: MyString
-  credential: MyString
-  role: 1
+  email: m2@mt2015.com
+  credential: helloworld654321
+  role: 0
   password_digest: MyString

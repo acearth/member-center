@@ -6,24 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(
-    user_name: 'ace',
-    emp_id: 'X1234',
-    email: 'sample@worksap.co.jp',
-    mobile_phone: '+86 134-5678-9990',
-    role: :admin,
-    password: 'asdf'
-)
-
-
-User.create(
-    user_name: 'arthur',
-    emp_id: 'X1235',
-    email: 's0@worksap.co.jp',
-    mobile_phone: '+89 134-5678-9990',
-    role: :ordinary,
-    password: 'asdf'
-)
+10.times do |n|
+  Faker::Config.locale = 'zh-CN'
+  User.create!(
+      user_name: 'name.' + n.to_s,
+      email: "example-#{n+1}@worksap.co.jp",
+      role: 0,
+      credential: SecureRandom.base58(32),
+      mobile_phone: Faker::PhoneNumber.cell_phone,
+      emp_id: 'TEST-' + Faker::Number.number(10),
+      password: 'password')
+end
 
 
 ServiceProvider.create(
@@ -32,9 +25,7 @@ ServiceProvider.create(
     callback_url: 'http://localhost:3000/login_callback',
     credential: SecureRandom.base58(32),
     secret_key: SecureRandom.base58(16),
-    user: User.first
-)
-
+    user: User.first)
 
 # TODO：use faker gem to setup users
 # User.create!(name:  "Example User",
