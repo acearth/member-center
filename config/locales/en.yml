@@ -48,6 +48,7 @@ en:
   account: Account
   user_name_hint: user_name can only contains number, letter and ".", and "." cannot occurr at boundary
 
+  scan_2fa_qr_code: Please scan following QR code for 2FA if you have Auth App, such as GoogleAuthenticator.
 
 
 

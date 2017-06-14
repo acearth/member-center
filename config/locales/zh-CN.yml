@@ -25,5 +25,6 @@ zh-CN:
   account: 账号
   feedback: 反馈
   user_name_hint: 用户名只能包含数字、字母和".", "."只能出现在中间位置.
+  scan_2fa_qr_code: 请使用认证工具(如Google Authenticator)扫描认证码。中国用户也可以使用微信小程序“两步验证”或“运维密码”扫描。
 
 

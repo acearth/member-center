@@ -11,6 +11,10 @@ jp:
   service_provider: サービスプロバイダ
   account: アカウント
   feedback: フィードバック
+  scan_2fa_qr_code: Please scan following QR code for 2FA if you have Auth App, such as GoogleAuthenticator.
+  emp_id: 従業員ID
+  mobile_phone: 携帯電話
+  email: Eメール
 
 #  users: 用户
 #  user_name: 用户名

@@ -21,12 +21,10 @@
 <br>
 <p>
   <% if @qr_code %>
-    <span style="color: green">
-      Please scan following QR code for 2FA if you have Auth App, such as GoogleAuthenticator.
-    </span>
-    <div class="left">
-      <%= raw @qr_code.as_svg(module_size: 3) %>
-    </div>
+      <span style="color: green"> <%= t('scan_2fa_qr_code') %> </span>
+      <div class="left">
+        <%= raw @qr_code.as_svg(module_size: 3) %>
+      </div>
     <% @qr_code = nil %>
 <% end %>
 </p>

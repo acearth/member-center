@@ -1,16 +1,5 @@
 <%= form_with(model: user, local: true) do |form| %>
-    <% if user.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-          <ul>
-            <% user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
-
+    <%= render 'shared/error_messages' %>
     <div class="field">
       <%= form.label t('user_name') %>
 
@@ -19,12 +8,12 @@
 
     <div class="field">
       <%= form.label t('emp_id') %>
-      <%= form.text_field :emp_id, id: :user_emp_id %>
+      <%= form.text_field :emp_id, id: :user_emp_id, class: 'form-control' %>
     </div>
 
     <div class="field">
       <%= form.label t('mobile_phone') %>
-      <%= form.text_field :mobile_phone, id: :user_mobile_phone %>
+      <%= form.text_field :mobile_phone, id: :user_mobile_phone, class: 'form-control' %>
     </div>
 
     <div class="field">
@@ -35,11 +24,11 @@
 
     <div class="field">
       <%= form.label t('password') +' | ! You don`t need to input password unless you want to change your password' %>
-      <%= form.password_field :password, id: :user_password %>
+      <%= form.password_field :password, id: :user_password, class: 'form-control' %>
     </div>
     <div class="field">
       <%= form.label 'New ' + t('password') %>
-      <%= form.password_field :password_new, id: :user_password_new %>
+      <%= form.password_field :password_new, id: :user_password_new, class: 'form-control' %>
     </div>
 
     <div class="actions">
