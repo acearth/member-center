@@ -1,21 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  app_id: MyString1
+  app_id: mystring1
   auth_level: 1
   credential: MyString
   secret_key: worldhello123456
   user: one
   description: MyString
-  callback_url: http://www.cc
+  callback_url: http://one.sp.com/login_callback
   salt: info000
 
 two:
-  app_id: MyString2
+  app_id: mystring2
   auth_level: 1
   credential: MyString
   secret_key: worldhello654321
   user: two
   description: MyString
-  callback_url: http://www.cc
+  callback_url: http://two.sp.com/login_callback
   salt: info001
