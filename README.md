@@ -8,6 +8,9 @@
 # achievement
   http://genius.internal.worksap.com
   
+# API documentation
+http://genius.internal.worksap.com/help
+
 # To-do list
 1. PostgreSQL need to listen on limited addresses;
 2. User should be logged in after register;
