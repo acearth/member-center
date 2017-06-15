@@ -8,7 +8,9 @@
 0. redis-server 
 1. bundle exec sidekiq
 
-
+## stats information
+/rails/info/properties
+/rails/info/routes
 
 
 
