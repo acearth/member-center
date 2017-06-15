@@ -72,3 +72,9 @@ Code 500          		36 times.
 -------- Legend --------
 RPS: Request Per Second
 BSI: Boom Speed Index
+
+check status
+/rails/info/properties
+/rails/info/routes
+/sidekiq
+
