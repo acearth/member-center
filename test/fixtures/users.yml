@@ -2,7 +2,7 @@
 
 
 one:
-  user_name: MyString001
+  user_name: mystring001
   emp_id: MyString
   mobile_phone: MyString
   email: m1@mt2015.com
@@ -11,7 +11,7 @@ one:
   password_digest: $2a$10$4ASFq1PPby0Tn.n68Wu6ZeseSO0/.2Qixr2au4MX2oyy6XMqQAKxS
 
 two:
-  user_name: MyString002
+  user_name: mystring002
   emp_id: MyString
   mobile_phone: MyString
   email: m2@mt2015.com

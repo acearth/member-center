@@ -42,9 +42,7 @@ class CommonUtils
 
     def valid_email_token?(act, token, user)
       msg = aes_decrypt(user.credential[0...16], token).split('-')
-      puts msg
       return false if msg.size!= 2 || msg.any?(&:nil?)
-      puts msg[1] == act
       msg[1] == act && !email_link_expired?(msg[0])
     end
 

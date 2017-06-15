@@ -26,7 +26,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # TODO-proof: Email can not be changed
   # GET /users/1/edi
   def edit
   end
@@ -88,8 +87,7 @@ class UsersController < ApplicationController
   def activate
     @user = User.find(params[:id])
     if CommonUtils.valid_email_token?('activate', params[:activate_token], @user)
-      @user.role = 0
-      @user.save!
+      @user.update!(role: :ordinary)
       flash[:notice] = 'Your account is activated successfully'
     else
       flash[:warning] = 'Failed to activate user'
