@@ -1,12 +1,6 @@
 <%= form_with(model: user, local: true) do |form| %>
     <%= render 'shared/error_messages' %>
     <div class="field">
-      <%= form.label t('user_name') %>
-
-      <%= form.text_field :user_name, id: :user_user_name, disabled: true %>
-    </div>
-
-    <div class="field">
       <%= form.label t('emp_id') %>
       <%= form.text_field :emp_id, id: :user_emp_id, class: 'form-control' %>
     </div>
@@ -16,22 +10,36 @@
       <%= form.text_field :mobile_phone, id: :user_mobile_phone, class: 'form-control' %>
     </div>
 
-    <div class="field">
-      <%= form.label t('email') %>
-      <%= form.text_field :email, id: :user_email, disabled: true %>
+    <div class="actions">
+      <%= form.submit %>
     </div>
+<% end %>
 
-
+<%= form_with(model: user, url: update_password_path) do |form| %>
+    <%= render 'shared/error_messages' %>
     <div class="field">
-      <%= form.label t('password') +' | ! You don`t need to input password unless you want to change your password' %>
+      <%= form.label t('password') %>
       <%= form.password_field :password, id: :user_password, class: 'form-control' %>
     </div>
     <div class="field">
       <%= form.label 'New ' + t('password') %>
       <%= form.password_field :password_new, id: :user_password_new, class: 'form-control' %>
     </div>
-
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit 'Update Password' %>
     </div>
 <% end %>
+
+<%= form_with(model: user, url: reset_otp_key_url) do |form| %>
+    <%= render 'shared/error_messages' %>
+
+    <div class="field">
+      <%= form.label t('password') %>
+      <%= form.password_field :password, id: :user_password, class: 'form-control' %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Update your OTP key' %>
+    </div>
+<% end %>
+

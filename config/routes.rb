@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   put '/password_resets' => 'password_resets#update', as: :password_resets
   get '/password_resets/edit' => 'password_resets#edit', as: :edit_password_resets
   get '/users/:id/activate' => 'users#activate', as: :activate_user
+  match '/users/:id/update_password' => 'users#update_password', as: :update_password, via: [:patch, :put]
+  match '/users/:id/reset_otp_key' => 'users#reset_otp_key', as: :reset_otp_key, via: [:patch, :put]
   resources :users
   resources :service_providers
   resources :password_resets, only: [:new, :create]

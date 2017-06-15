@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:edit, :update, :index]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :logged_in_user, only: [:edit, :update, :index, :update_password, :reset_otp_key]
+  before_action :correct_user, only: [:edit, :update, :update_password, :reset_otp_key]
 
   # GET /users
   # GET /users.json
@@ -52,18 +52,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      changeable_params = params.require(:user).permit(:mobile_phone, :emp_id, :password, :password_new)
-      if changeable_params[:password_new].present?
-        if @user.authenticate(changeable_params[:password])
-          changeable_params[:password] = changeable_params.delete :password_new
-        else
-          flash[:warning] = 'Old password wrong!'
-          redirect_to edit_user_path and return
-        end
-      else
-        changeable_params.delete :password
-        changeable_params.delete :password_new
-      end
+      changeable_params = params.require(:user).permit(:mobile_phone, :emp_id)
       if @user.update(changeable_params)
         format.html {redirect_to @user, notice: 'User was successfully updated.'}
         format.json {render :show, status: :ok, location: @user}
@@ -72,6 +61,29 @@ class UsersController < ApplicationController
         format.json {render json: @user.errors, status: :unprocessable_entity}
       end
     end
+  end
+
+  def update_password
+    respond_to do |format|
+      if @user.authenticate(params[:user][:password]) && @user.update(password: params[:user][:password_new])
+        format.html {redirect_to @user, notice: 'User was successfully updated.'}
+        format.json {render :show, status: :ok, location: @user}
+      else
+        format.html {render :edit, notice: 'Old password wrong!'}
+        format.json {render json: @user.errors, status: :unprocessable_entity}
+      end
+    end
+  end
+
+  def reset_otp_key
+    if @user.authenticate(params[:user][:password])
+      sec = UserSecurity.find_by_user_id(@user.id)
+      sec.update!(otp_key: ROTP::Base32.random_base32)
+      flash[:notice] = 'Your OTP key is successfully created again'
+    else
+      flash[:warning] = 'Password wrong'
+    end
+    redirect_to @user
   end
 
   # DELETE /users/1
