@@ -30,7 +30,7 @@
     </div>
 <% end %>
 
-<%= form_with(model: user, url: reset_otp_key_url) do |form| %>
+<%= form_with(model: user, url: request_new_otp_key_url, method: :put) do |form| %>
     <%= render 'shared/error_messages' %>
 
     <div class="field">

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606171306) do
+ActiveRecord::Schema.define(version: 20170616062533) do
+
+  create_table "account_events", force: :cascade do |t|
+    t.integer "event_type"
+    t.string "event_token"
+    t.boolean "finished"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_account_events_on_user_id"
+  end
 
   create_table "feedbacks", force: :cascade do |t|
     t.string "email"
