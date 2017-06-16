@@ -25,10 +25,12 @@ Rails.application.routes.draw do
   get '/password_resets/edit' => 'password_resets#edit', as: :edit_password_resets
   get '/users/:id/activate' => 'users#activate', as: :activate_user
   match '/users/:id/update_password' => 'users#update_password', as: :update_password, via: [:patch, :put]
-  match '/users/:id/reset_otp_key' => 'users#reset_otp_key', as: :reset_otp_key, via: [:patch, :put]
+  get '/users/:id/reset_otp_key' => 'users#reset_otp_key', as: :reset_otp_key
+  put '/users/:id/demand_otp_key' => 'users#demand_otp_key', as: :request_new_otp_key
   resources :users
   resources :service_providers
   resources :password_resets, only: [:new, :create]
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api do

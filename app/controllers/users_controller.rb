@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:edit, :update, :index, :update_password, :reset_otp_key]
-  before_action :correct_user, only: [:edit, :update, :update_password, :reset_otp_key]
+  before_action :logged_in_user, only: [:edit, :update, :index, :update_password, :reset_otp_key, :demand_otp_key]
+  before_action :correct_user, only: [:edit, :update, :update_password, :reset_otp_key, :demand_otp_key]
 
   # GET /users
   # GET /users.json
@@ -76,10 +76,24 @@ class UsersController < ApplicationController
   end
 
   def reset_otp_key
-    if @user.authenticate(params[:user][:password])
+    @user = User.find_by_email(params[:email])
+    if @user && CommonUtils.valid_sign?(@user.email, params[:token], @user.credential, params[:sign])
       sec = UserSecurity.find_by_user_id(@user.id)
-      sec.update!(otp_key: ROTP::Base32.random_base32)
-      flash[:notice] = 'Your OTP key is successfully created again'
+      event = AccountEvent.find_by!(user_id: @user.id, finished: false)
+      unless event.expired?
+        sec.update!(otp_key: ROTP::Base32.random_base32)
+        event.update!(finished: true)
+        flash[:notice] = 'Your OTP key is successfully created again'
+        redirect_to @user
+      end
+    end
+  end
+
+  def demand_otp_key
+    if @user.authenticate(params[:user][:password])
+      event = AccountEvent.create!(user: @user, event_type: :otp_key_reset)
+      UserMailer.otp_key_reset(@user, reset_otp_key_url, event.event_token).deliver_later
+      flash[:notice] = 'Please check your email to reset your OTP key'
     else
       flash[:warning] = 'Password wrong'
     end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  event_type: 1
+  event_token: MyString
+  finished: false
+  user: one
+
+two:
+  event_type: 1
+  event_token: MyString
+  finished: false
+  user: two
