@@ -44,11 +44,15 @@ class SessionsController < ApplicationController
 
   def login_back(member)
     if @service_provider
-      ticket = Ticket.create(service_provider: @service_provider, user: member, request_ip: request.remote_ip)
+      ticket = Ticket.create(service_provider: @service_provider, user: member, request_ip: real_ip)
       ticket.save
       return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
     else
       return member
     end
+  end
+
+  def real_ip
+    request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
   end
 end
