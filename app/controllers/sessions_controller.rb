@@ -45,13 +45,13 @@ class SessionsController < ApplicationController
     end
   end
 
-  def login_back(member)
+  def login_back(user)
     if @service_provider
-      ticket = Ticket.create(service_provider: @service_provider, user: member, request_ip: real_ip)
+      ticket = Ticket.create(service_provider: @service_provider, user: user, request_ip: real_ip)
       ticket.save
       return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
     else
-      return member
+      return user
     end
   end
 

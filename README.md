@@ -15,7 +15,7 @@ http://genius.internal.worksap.com/help
 1. PostgreSQL need to listen on limited addresses;
 2. User should be logged in after register;
 3. User link expire after used
-4. Revoke login status after reset password or logout from member center;
+4. Revoke login status after reset password or logout from genius center;
 5. Security: Deviant user behavior alert
 6. User behavior collecting and analysis
 7. Classified authenticating level for different SP
