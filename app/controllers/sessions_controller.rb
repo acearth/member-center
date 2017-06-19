@@ -38,7 +38,10 @@ class SessionsController < ApplicationController
     app_id = params[:app_id] || params[:session] && params[:session][:app_id]
     if app_id.present?
       @service_provider = ServiceProvider.find_by_app_id(app_id)
-      render status: 406 unless @service_provider
+      unless @service_provider
+        flash[:warning] = 'Wrong service provider parameter'
+        redirect_to root_url
+      end
     end
   end
 
@@ -52,6 +55,8 @@ class SessionsController < ApplicationController
     end
   end
 
+  # @notice: set NGINX server config:
+  #   server block: proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
   def real_ip
     request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
   end
