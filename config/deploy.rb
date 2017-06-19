@@ -2,7 +2,7 @@
 lock "3.8.1"
 
 set :application, 'GeniusCenter'
-set :repo_url, 'git@github.com:acearth/member-center.git'
+set :repo_url, 'git@github.com:acearth/genius-center.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
