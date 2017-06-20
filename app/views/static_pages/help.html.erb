@@ -113,6 +113,53 @@ The following picture shows a brief work procedure of authenticating by GeniusCe
 9. When verified and authenticated this ticket, MC respond ticket-associated user information to APP server;<br>
 10. APP render user welcome page;<br>
 
+<h3>3. How to Introducing Genius Service to Your Application</h3>
+<p>
+  Please catch the following steps to introducing Genius Service to your applications.
+</p>
+
+<h4>Preparation</h4>
+<p>Before implementation, SP(service provider) should make specification about follow questions</p>
+1. When a user logout, change password, or reset his password, should the SP logout the user? <br>
+If your application is not sensitive to user's previous mentions behavior, you can just ignore this question.
+If not, you should add one revoke action to your application. So when the user changed his password, you can logout him from your application, in case of user account illegally accessed.
+<br>
+<br>
+2. Is your application have some special user data, or you want to manage user's information by your application?<br>
+If so, you should maintain your current user data as previously.
+But about new user from Genius Center(this user is registered on GeniusCenter, but don't have an account on your application.)
+Do you want to register the user manually on your application. Or, you can provide one method like auto_register(UserData user_from_genius_center).
+So when new user comes, you needn't to do anything about him.
+<br>
+<br>
+3. When a user is logged into successfully, what data do you want to get from Genius Center?<br>
+Currently, only user's emp_id and email will be return to SP when user logged in successfully.<br>
+If your application needs more user information, such as display_name, please pass it in HTTP request parameters and negotiate with Genius Center
+<br>
+<br>
+When previous three requirements is determined, you can introducing Genius Service easily.
+<br>
+
+<br>
+
+<h4> Introducing Genius Service Steps</h4>
+1. Register a ServiceProvider on GeniusCenter(click 'Service Provider' on Genius Center header when you logged into it);
+<br>
+2. Add one method(such as 'login_callback()') for login callback action(When callback_url is called by GeniusCenter, this method should handle request from GeniusCenter);
+<br>
+3. Re-deploy your application. <br>
+
+<p>
+  * If your application has more needs on preparation, please negotiation with Genius Center to get more specific
+  authentication service.
+</p>
+
+<p>
+  The following link is an example to introducing Genius Service into Redmine project.
+  Please refer it freely.
+</p>
+
+<a style='color:blue' href="https://github.com/acearth/redmine/pull/1/files">Redmine Pull Request &lt;-- Click Here</a>
+
+
 <h3>See more at <a href="https://github.com/acearth/member-center">Github</a></h3>
-
-
