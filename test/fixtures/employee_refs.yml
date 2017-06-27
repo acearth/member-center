@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  emp_id: MyString
+  full_name: MyString
+  kana: MyString
+  email: MyString
+
+two:
+  emp_id: MyString
+  full_name: MyString
+  kana: MyString
+  email: MyString
