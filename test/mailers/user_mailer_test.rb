@@ -2,6 +2,10 @@ require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
   fake_link = 'http://my.fake.host/fake_path'
+
+  test 'mailer config setup' do
+    assert_not_nil UserMailer.default[:from]
+  end
   test "activate" do
     mail = UserMailer.activate(User.first, fake_link)
     assert_equal "Activate User | Genius Center", mail.subject
