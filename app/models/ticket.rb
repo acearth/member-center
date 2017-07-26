@@ -12,7 +12,7 @@ class Ticket < ApplicationRecord
   end
 
   def expired?
-    created_at < 5.minutes.ago
+    !!used || created_at < 5.minutes.ago || created_at > Time.now
   end
 
   class << self

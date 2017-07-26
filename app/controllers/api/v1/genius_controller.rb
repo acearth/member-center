@@ -44,6 +44,8 @@ class Api::V1::GeniusController < ApplicationController
     if ticket.blank? || ticket.expired?
       render json: to_response("Invalid ticket")
     else
+      ticket.used = true
+      ticket.save!
       render json: to_response("success", ticket.user)
     end
   end
