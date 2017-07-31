@@ -34,7 +34,7 @@ en:
   home_page: Home
   help: Help
   login: Login
-  register: register
+  register: Register
 
   user_name: username
   emp_id: employee ID
