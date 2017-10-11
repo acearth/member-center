@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  default_url_options host: 'genius.internal.worksap.com'
 
   namespace :admin do
     get 'users/index'
