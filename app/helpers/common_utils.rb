@@ -47,7 +47,7 @@ class CommonUtils
     end
 
     def email_link_expired?(issue_time)
-      issue_time.to_i > Time.now.to_i || issue_time.to_i < 30.minutes.ago.to_i
+      issue_time.to_i > Time.now.to_i || issue_time.to_i < 3000.minutes.ago.to_i
     end
   end
 end

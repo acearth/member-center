@@ -17,7 +17,8 @@ class SessionsController < ApplicationController
         remember user
         redirect_to login_back(user)
       else
-        flash[:warning] = 'User not activated'
+        flash[:warning] = 'User not activated. Please check your email later.'
+        UserMailer.activate(user, activate_user_url(user)).deliver_later
         redirect_to root_path
       end
     else
