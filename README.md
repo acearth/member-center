@@ -17,6 +17,7 @@ http://genius.internal.worksap.com/help
 3. bundle exec sidekiq
 4. ensure localhost:redis
 # To-do list
+0. REMEMBER ME OR NOT
 0. Mailer config TEST before deploy!
 0.1 Return all parameters after call;
 0.2 Add success solution;
