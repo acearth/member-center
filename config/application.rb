@@ -16,7 +16,7 @@ module GeniusCenter
     # -- all .rb files in that directory are automatically loaded.
 
     # Configuration for sending mail
-    config.action_mailer.default_url_options = { :host => "genius0.internal.worksap.com" }
+    config.action_mailer.default_url_options = { :host => "genius.internal.worksap.com" }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
         
@@ -33,5 +33,7 @@ module GeniusCenter
     config.action_view.embed_authenticity_token_in_remote_forms = true
 
     config.cache_store = :redis_store, "redis://localhost:6379/0/cache", {expires_in: 90.minutes}
+
+    config.ldap = config_for(:ldap)
   end
 end

@@ -1,23 +1,17 @@
 # This service used to add LDAP Support for
 #   - adding user entry and
 #   - setting user password.
-# Requires the following environment variables:
-#   - LDAP_ADMIN_DN
-#   - LDAP_ADMIN_PASSWORD
-#   - LDAP_SERVER_HOST
-#   - LDAP_SERVER_PORT <optional>
-#   - LDAP_USER_DN_BASE
 #
 class LdapService
   ORDINARY_USER_GROUP_ID = '500'
   CONNECTION_CONFIG = {
       auth: {
           method: :simple,
-          username: ENV["LDAP_ADMIN_DN"],
-          password: ENV["LDAP_ADMIN_PASSWORD"]
+          username: Rails.configuration.ldap['admin_dn'],
+          password: Rails.configuration.ldap['admin_password']
       },
-      host: ENV["LDAP_SERVER_HOST"],
-      port: ENV["LDAP_SERVER_PORT"] || '389'
+      host: Rails.configuration.ldap['host'],
+      port: Rails.configuration.ldap['port'] || '389'
   }
 
   class << self
@@ -53,7 +47,7 @@ class LdapService
 
     private
     def dn(user_name)
-      "cn=#{user_name}," + ENV["LDAP_USER_DN_BASE"]
+      "cn=#{user_name}," + Rails.configuration.ldap['user_base_dn']
     end
 
     def log_error(method, user_name, error)
