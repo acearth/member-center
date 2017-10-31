@@ -39,6 +39,7 @@ class PasswordResetsController < ApplicationController
     @user = set_user(params[:reset_info])
     if @user
       @user.update(password: params[:reset_info][:password])
+      LdapService.set_password(@user.user_name, params[:reset_info][:password])
     else
       flash[:warning] ='Failed to reset password' unless @user
     end
