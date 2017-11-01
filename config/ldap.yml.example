@@ -1,0 +1,18 @@
+production:
+  admin_dn: cn=admin,dc=example,dc=com
+  admin_password: password
+  host: localhost
+  user_base_dn: ou=users,dc=example,dc=com
+
+test:
+  admin_dn: cn=admin,dc=example,dc=com
+  admin_password: password
+  host: localhost
+  user_base_dn: ou=users,dc=example,dc=com
+
+development:
+  admin_dn: cn=admin,dc=example,dc=com
+  admin_password: password
+  host: localhost
+  user_base_dn: ou=users,dc=example,dc=com
+
