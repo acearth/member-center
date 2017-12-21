@@ -19,13 +19,8 @@ module GeniusCenter
     config.action_mailer.default_url_options = { :host => "genius.internal.worksap.com" }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        
-        address: ENV['SMTP_HOST'],
-        port: ENV['SMTP_PORT'],
-        user_name: ENV['SMTP_USER_NAME'],
-        password: ENV['SMTP_PASSWORD'],
-        authentication: 'plain',
-        enable_starttls_auto: true
+        #address: ENV['SMTP_HOST'],
+        address: 'mx.securemx.jp'
     }
 
     config.active_job.queue_adapter = :sidekiq
