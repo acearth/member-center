@@ -1,8 +1,7 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  # protect_from_forgery with: :exception
+  protect_from_forgery with: :exception
   before_action :set_locale
-#  protect_from_forgery
 
   # Confirms a logged-in user.
   def logged_in_user
