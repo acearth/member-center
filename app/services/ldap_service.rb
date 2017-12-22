@@ -11,7 +11,7 @@ class LdapService
           password: Rails.configuration.ldap['admin_password']
       },
       host: Rails.configuration.ldap['host'],
-      port: Rails.conaiguration.ldap['port'] || '389'
+      port: Rails.configuration.ldap['port'] || '389'
   }
 
   class << self
