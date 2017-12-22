@@ -17,12 +17,9 @@ http://genius.internal.worksap.com/help
 3. bundle exec sidekiq
 4. ensure localhost:redis
 # To-do list
-0. REMEMBER ME OR NOT
 0. Mailer config TEST before deploy!
-0.1 Return all parameters after call;
 0.2 Add success solution;
 1. PostgreSQL need to listen on limited addresses;
-2. User should be logged in after activate;
 3. User link expire after used
 4. Revoke login status after reset password or logout from genius center;
 5. Security: Deviant user behavior alert
@@ -30,4 +27,3 @@ http://genius.internal.worksap.com/help
 7. Classified authenticating level for different SP
 8. Multi-location deployment
 9. Read/write separation // Database replica
-

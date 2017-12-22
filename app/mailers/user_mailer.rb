@@ -41,8 +41,4 @@ class UserMailer < ApplicationMailer
     @link="#{link_without_query.strip}?#{query.to_query}"
     mail(to: user.email, subject: 'OTP_key Reset | Genius Center')
   end
-
-  def bonjour(to = ENV['MAIL_FROM'])
-    mail(to: to, subject: "#{Time.now.to_s} | GeniusCenterTest", body: "THIS IS BONJOUR MAIL")
-  end
 end

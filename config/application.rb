@@ -16,11 +16,12 @@ module GeniusCenter
     # -- all .rb files in that directory are automatically loaded.
 
     # Configuration for sending mail
-    config.action_mailer.default_url_options = { :host => "genius.internal.worksap.com" }
+    config.mail = config_for(:mail)
+    config.action_mailer.default_url_options = {:host => Rails.configuration.mail['default_host']}
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        address: ENV['SMTP_HOST'],
-	enable_starttls_auto: true
+        address: Rails.configuration.mail['smtp_server'],
+        enable_starttls_auto: true
     }
 
     config.active_job.queue_adapter = :sidekiq

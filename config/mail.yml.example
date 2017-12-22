@@ -1,0 +1,13 @@
+default: &default
+  smtp_server: mx.example.com
+  default_from: admin@example.com
+  default_host: myapp.example.com
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
