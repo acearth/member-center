@@ -9,12 +9,12 @@ class SessionsController < ApplicationController
   end
 
   def create
-    info = params.require(:session).permit(:user_name, :password, :app_id)
+    info = params.require(:session).permit(:user_name, :password, :remember_me, :app_id)
     user = User.find_by_user_name(info[:user_name])
     if user && user.authenticate(info[:password])
       if  !user.invalid_role? || user.user_name.start_with?('test')
         log_in user
-        remember user if params[:remember_me]
+        remember user if info[:remember_me]
         redirect_to login_back(user)
       else
         flash[:warning] = 'User not activated. Please check your email later.'

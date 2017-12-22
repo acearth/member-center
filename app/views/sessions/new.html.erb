@@ -19,8 +19,10 @@
           <span class="help-block with-errors">Password must longer than 5 charactors.</span>
         </div>
       <div class="form-group">
-        <%= check_box_tag(:remember_me, true, true) %>
-        <%= label_tag(:remember_me, "Remember me ?") %>
+        <%= f.label :remember_me, class: "checkbox inline" do %>
+          <%= f.check_box :remember_me, {checked: true}, true, false %>
+          <span>Remember me on this computer ?</span>
+        <% end %>
       </div>
       <%= f.submit t('login'), class: "btn btn-primary btn-block" %>
         <%= f.hidden_field :app_id, :value => params[:app_id] %>
