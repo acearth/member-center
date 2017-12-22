@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(info[:password])
       if  !user.invalid_role? || user.user_name.start_with?('test')
         log_in user
-        remember user
+        remember user if params[:remember_me]
         redirect_to login_back(user)
       else
         flash[:warning] = 'User not activated. Please check your email later.'
@@ -47,10 +47,12 @@ class SessionsController < ApplicationController
   end
 
   def login_back(user)
+    foreign_params = request.query_parameters.dup
+    foreign_params.delete('app_id')
     if @service_provider
       ticket = Ticket.create(service_provider: @service_provider, user: user, request_ip: real_ip)
       ticket.save
-      return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
+      return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}&#{foreign_params.to_query}"
     else
       return user
     end

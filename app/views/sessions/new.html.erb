@@ -4,7 +4,7 @@
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(:session, url: login_path, html: {'data-toggle': 'validator'}) do |f| %>
+    <%= form_for(:session, url: login_path + '?' + request.query_parameters.to_query, html: {'data-toggle': 'validator'}) do |f| %>
         <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
         <div class="form-group">
           <%= f.label t('user_name') %>
@@ -18,7 +18,11 @@
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
           <span class="help-block with-errors">Password must longer than 5 charactors.</span>
         </div>
-        <%= f.submit t('login'), class: "btn btn-primary btn-block" %>
+      <div class="form-group">
+        <%= check_box_tag(:remember_me, true, true) %>
+        <%= label_tag(:remember_me, "Remember me ?") %>
+      </div>
+      <%= f.submit t('login'), class: "btn btn-primary btn-block" %>
         <%= f.hidden_field :app_id, :value => params[:app_id] %>
         </br>
         <span>
