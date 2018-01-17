@@ -2,6 +2,10 @@ class Api::V1::GeniusController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :set_service_proivider
 
+  def exist?
+    render plain: (User.find_by_user_name(params[:user_name]) && true || false)
+  end
+
   # Params
   #   app_id
   #   user_name

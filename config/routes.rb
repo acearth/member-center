@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login', to: 'genius#login'
       post 'auth', to: 'genius#authenticate'
+      get 'genius_exist', to: 'genius#exist?'
       get 'bonjour', to: 'genius#bonjour'
     end
   end
