@@ -8,9 +8,9 @@
         <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
         <div class="form-group">
           <%= f.label t('user_name') %>
-          <%= f.text_field :user_name, class: 'form-control', autofocus: 'autofocus', pattern: '^[a-z][a-z0-9]+(\.)?[a-z0-9]+', 'data-error': 'Please check your username is right, and email address is inacceptable' %>
+          <%= f.text_field :user_name, class: 'form-control', autofocus: 'autofocus', pattern: '/\A[a-z]([a-z0-9]+\.?)*[a-z0-9]+\z/', 'data-error': 'Please check your username is right, and email address is inacceptable' %>
           <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-          <div class="help-block with-errors">Username starts with letter, only numbers, letters and one dot(.) are allowed. </div>
+          <div class="help-block with-errors">Username starts with letter, only numbers, letters and dot(.) are allowed. </div>
         </div>
         <div class="form-group">
         <%= f.label t('password') %>
