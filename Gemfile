@@ -7,6 +7,7 @@ end
 
 ruby '2.4.1'
 
+gem 'rest-client'
 gem 'net-ldap'
 gem 'will_paginate', '3.1'
 gem 'will_paginate-bootstrap'
