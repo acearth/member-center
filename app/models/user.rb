@@ -2,7 +2,7 @@ class User < ApplicationRecord
   before_save {email.downcase!}
   # validates :mobile_phone, phone: true #SHUT DOWN temporarily
   validates :user_name, format: {with: /\A[a-z]([a-z0-9]+\.?)*[a-z0-9]+\z/, message: I18n.t('user_name_hint')}, length: {minimum: 3}, on: [:create, :save, :update]
-  validates :email, format: {with: /\A\w+@worksap\.co\.jp\z/, message: 'Invalid Email'}, uniqueness: true, on: :create
+  validates :email, format: {with: /\A\w+@(worksap\.co\.jp|ivtlinfoview\.com|ivtlinfoview\.co\.jp)\z/, message: 'Invalid Email'}, uniqueness: true, on: :create
   validates :password, length: {minimum: 6}, if: :password
   enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4}
   attr_accessor :remember_token
