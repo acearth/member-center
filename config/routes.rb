@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       post 'auth', to: 'genius#authenticate'
       get 'genius_exist', to: 'genius#exist?'
       get 'bonjour', to: 'genius#bonjour'
+      get 'jwt_user', to: 'genius#jwt_user'
     end
   end
   require 'sidekiq/web'

@@ -10,6 +10,7 @@ module SessionsHelper
     user.remember
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
+    guarantee_jwt(user)
   end
 
   # Returns true if the given user is the current user.
@@ -28,6 +29,8 @@ module SessionsHelper
         @current_user = user
       end
     end
+    @current_user && guarantee_jwt(@current_user)
+    @current_user
   end
 
   # Returns true if the user is logged in, false otherwise.
@@ -40,6 +43,7 @@ module SessionsHelper
     user.forget
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
+    revoke_jwt
   end
 
   # Logs out the current user.
@@ -59,5 +63,20 @@ module SessionsHelper
   def store_location
     #TODO-check
     session[:forwarding_url] = request.url if request.get?
+  end
+
+  def guarantee_jwt(user)
+    payload = {
+        user_name: user.user_name
+    }
+    token = JWT.encode payload, Rails.configuration.jwt['secret'], 'HS256'
+    cookies[:jwt_genius] = {
+        domain: '.internal.worksap.com',
+        value: token
+    }
+  end
+
+  def revoke_jwt
+    cookies.delete(:jwt_genius, domain: '.internal.worksap.com')
   end
 end

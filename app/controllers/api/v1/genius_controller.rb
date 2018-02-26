@@ -2,6 +2,15 @@ class Api::V1::GeniusController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :set_service_proivider
 
+  def jwt_user
+    secret = Rails.configuration.jwt['secret']
+    json = JWT.decode params[:jwt], secret, true, {:algorithm => 'HS256'}
+    result = {code: 0, user_name: json.first['user_name'], sign: CommonUtils.md5_sign("0-#{json.first['user_name']}-#{@service_provider.secret_key}")}
+    render json: result
+  rescue
+    render json: {code: 998, msg: 'invalid jwt token', sign: CommonUtils.md5_sign("998-#{@service_provider.secret_key}")}
+  end
+
   def exist?
     render plain: (User.find_by_user_name(params[:user_name]) && true || false)
   end

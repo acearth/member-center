@@ -31,5 +31,6 @@ module GeniusCenter
     config.cache_store = :redis_store, "redis://localhost:6379/0/cache", {expires_in: 90.minutes}
 
     config.ldap = config_for(:ldap)
+    config.jwt = config_for(:jwt)
   end
 end
