@@ -52,7 +52,8 @@ class SessionsController < ApplicationController
     if @service_provider
       ticket = Ticket.create(service_provider: @service_provider, user: user, request_ip: real_ip)
       ticket.save
-      return "#{CommonUtils.format_query(params[:redirect_from] || @service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}&#{foreign_params.to_query}"
+      return params[:redirect_from] if params[:redirect_from]
+      return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}&#{foreign_params.to_query}"
     else
       return user
     end
