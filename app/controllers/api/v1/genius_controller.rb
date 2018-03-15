@@ -4,11 +4,12 @@ class Api::V1::GeniusController < ApplicationController
 
   def jwt_user
     secret = Rails.configuration.jwt['secret']
-    json = JWT.decode params[:jwt], secret, true, {:algorithm => 'HS256'}
+    json = JWT.decode params[:jwt] || cookies[:jwt_genius], secret, true, {:algorithm => 'HS256'}
     result = {code: 0, user_name: json.first['user_name'], sign: CommonUtils.md5_sign("0-#{json.first['user_name']}-#{@service_provider.secret_key}")}
     render json: result
-  rescue
-    render json: {code: 998, msg: 'invalid jwt token', sign: CommonUtils.md5_sign("998-#{@service_provider.secret_key}")}
+  rescue => e
+    render json: {code: 998, msg: 'unauthorized: ' + e.message}, status: :unauthorized
+    # render json: {code: 998, msg: 'invalid jwt token', sign: CommonUtils.md5_sign("998-#{@service_provider.secret_key}")}
   end
 
   def exist?
