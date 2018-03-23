@@ -45,15 +45,31 @@ class LdapService
       end
     end
 
+
+    def find_user(user_name)
+      filter = Net::LDAP::Filter.eq("cn", user_name)
+      Net::LDAP.new(CONNECTION_CONFIG).open do |server|
+        return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)
+      end
+    end
+
+    def attach_role(role_name, user_name)
+      role_dn="cn=#{role_name},ou=groups,dc=worksap,dc=com"
+      ops=[[:add, :memberuid, user_name]]
+      Net::LDAP.new(CONNECTION_CONFIG).open do |server|
+        server.modify dn: role_dn, :operations => ops
+      end
+    end
+
     private
     def dn(user_name)
       "cn=#{user_name}," + Rails.configuration.ldap['user_base_dn']
     end
 
     def log_error(method, user_name, error)
-      Rails.logger.error "Failed to execute LDAP service:"+
+      Rails.logger.error "Failed to execute LDAP service:" +
                              " #{method} for user: #{user_name}," +
-                             " code=#{error['code']}, message=#{error['message']},"+
+                             " code=#{error['code']}, message=#{error['message']}," +
                              " error_message= #{error['error_message']}"
     end
   end
