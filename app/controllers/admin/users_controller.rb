@@ -5,10 +5,22 @@ class Admin::UsersController < ApplicationController
   WillPaginate.per_page = 10
   
   def index
-    @users = User.paginate(page: params[:page])
+    @users = []
+    @users = User.search(params[:keywords]) if params[:keywords]
+    @users.reject! {|user| user.role == 'inactive'}
     render 'users/index'
   end
 
+  def role
+    @users = params.select {|k, _| k.to_s.start_with?('user_')}.values
+                 .map {|user_name| User.find_by_user_name(user_name)}
+    @users.each do |user|
+      user.role = params[:new_role]
+      user.save
+      LdapService.attach_role(params[:new_role], user.user_name)
+    end
+    render 'users/index'
+  end
 
   def correct_user
     unless current_user.admin?

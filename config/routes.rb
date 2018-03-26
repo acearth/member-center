@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'users/index'
+    post 'users/role'
   end
 
   # resources :feedbacks
