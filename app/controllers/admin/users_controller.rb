@@ -7,6 +7,7 @@ class Admin::UsersController < ApplicationController
   def index
     @users = []
     @users = User.search(params[:keywords]) if params[:keywords]
+    @users.reject! {|user| user.role == 'inactive'}
     render 'users/index'
   end
 
