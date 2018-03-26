@@ -6,7 +6,7 @@ class Admin::UsersController < ApplicationController
   
   def index
     @users = []
-    @users = User.where("user_name like'%#{params[:keyword]}%' or email like '%#{params[:keyword]}%'") if params[:keyword]
+    @users = User.search(params[:keywords]) if params[:keywords]
     render 'users/index'
   end
 

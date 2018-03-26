@@ -35,6 +35,15 @@ class User < ApplicationRecord
   end
 
   class << self
+
+    def search(keywords)
+      keywords.split(',').flat_map {|keyword| search_user(keyword.strip)}
+    end
+
+    def search_user(keyword)
+      where('user_name LIKE :keyword or email LIKE :keyword', keyword: "%#{keyword}%")
+    end
+
     def digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                  BCrypt::Engine.cost
