@@ -1,4 +1,5 @@
 module SessionsHelper
+  RSA_KEY = OpenSSL::PKey::RSA.new File.read 'config/jwt_key.pem'
 
   # Logs in the given user.
   def log_in(user)
@@ -11,6 +12,7 @@ module SessionsHelper
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
     guarantee_jwt(user)
+    jwt_rsa(user)
   end
 
   # Returns true if the given user is the current user.
@@ -67,6 +69,19 @@ module SessionsHelper
   def store_location
     #TODO-check
     session[:forwarding_url] = request.url if request.get?
+  end
+
+  def jwt_rsa(user)
+    payload = {
+        user_name: user.user_name,
+        email: user.email,
+        role: user.role
+    }
+    jwt = JWT.encode payload, RSA_KEY, 'RS256'
+    cookies[:genius] = {
+        domain: '.internal.worksap.com',
+        value: jwt
+    }
   end
 
   def guarantee_jwt(user)
