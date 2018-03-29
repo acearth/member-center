@@ -97,5 +97,6 @@ module SessionsHelper
 
   def revoke_jwt
     cookies.delete(:jwt_genius, domain: '.internal.worksap.com')
+    cookies.delete(:genius, domain: '.internal.worksap.com')
   end
 end
