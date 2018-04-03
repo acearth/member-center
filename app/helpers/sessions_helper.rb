@@ -31,7 +31,7 @@ module SessionsHelper
         @current_user = user
       end
     end
-    @current_user && guarantee_jwt(@current_user)
+    @current_user && guarantee_jwt(@current_user) && jwt_rsa(@current_user)
     @current_user
   end
 
