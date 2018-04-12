@@ -9,8 +9,14 @@ module SessionsHelper
   # Remembers a user in a persistent session.
   def remember(user)
     user.remember
-    cookies.permanent.signed[:user_id] = user.id
-    cookies.permanent[:remember_token] = user.remember_token
+    cookies[:user_id] = {
+        expires: 1.month.from_now,
+        value: user.id
+    }
+    cookies[:remember_token] = {
+        expires: 1.month.from_now,
+        value: user.remember_token
+    }
     guarantee_jwt(user)
     jwt_rsa(user)
   end
@@ -80,6 +86,7 @@ module SessionsHelper
     jwt = JWT.encode payload, RSA_KEY, 'RS256'
     cookies[:genius] = {
         domain: '.internal.worksap.com',
+        expires: 1.month.from_now,
         value: jwt
     }
   end
@@ -91,6 +98,7 @@ module SessionsHelper
     token = JWT.encode payload, Rails.configuration.jwt['secret'], 'HS256'
     cookies[:jwt_genius] = {
         domain: '.internal.worksap.com',
+        expires: 1.month.from_now,
         value: token
     }
   end
