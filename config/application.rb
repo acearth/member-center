@@ -32,8 +32,5 @@ module GeniusCenter
 
     config.ldap = config_for(:ldap)
     config.jwt = config_for(:jwt)
-
-    # config.i18n.default_locale = :en
-    config.i18n.default_locale = "zh-CN"
   end
 end
