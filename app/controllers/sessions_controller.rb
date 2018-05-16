@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
 
   def new
     redirect_to login_back(current_user) and return if current_user
+    @service_provider = ServiceProvider.find_by_app_id(params[:app_id])
     render layout: false
   end
 
