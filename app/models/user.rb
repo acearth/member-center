@@ -34,6 +34,10 @@ class User < ApplicationRecord
     _role == :inactive || _role == :resigned
   end
 
+  def ldap_stored?
+    LdapService.find_user(:user_name) && true || false
+  end
+
   class << self
 
     def search(keywords)

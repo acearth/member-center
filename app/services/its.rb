@@ -39,7 +39,6 @@ end
 # ITS.fetch_user('an_x')
 # ITS.fetch_user('1347')
 
-# ITS.fetch_user('chen_yiy@worksap.co.jp')
 count = 0
 # nou.each do |em|
 #   u = ITS.fetch_user(em)
@@ -51,8 +50,7 @@ count = 0
 # end
 
 
-ITS.authenticate('zheng_c', '')
-ITS.authenticate('an_x', 'asdf1234')
-a = ITS.fetch_user('an_x')
-puts a.inspect
-puts ITS.fetch_user('zheng_c').inspect
+# ITS.authenticate('zheng_c', '')
+# a = ITS.fetch_user('an_x')
+# puts a.inspect
+# puts ITS.fetch_user('zheng_c').inspect

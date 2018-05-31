@@ -11,6 +11,18 @@ class LdapService
   }
 
   class << self
+    def find_lost_user()
+      puts "This job needs to check Database and LDAP server, requires long time maybe."
+      puts "You can exit by CTRL + C if you want to stop"
+      blank_users = User.all.reject {|user| user.ldap_stored?}
+      if blank_users.empty?
+        puts "Congrats! Every user is synchronized to LDAP server"
+      else
+        puts "NOTICE: #{blank_users.size} users didn't stored into LDAP server. Please fix this problem manually."
+        puts blank_users
+      end
+    end
+
     def add_user_entry(user_name, password, mail)
       entry = {
           uid: user_name,
