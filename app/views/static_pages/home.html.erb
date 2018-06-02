@@ -1,7 +1,17 @@
+<div class="container">
 <% @sp_list.each do |sp| %>
-  <p>
-    <%= sp.app_id %>
-  </p>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3 class="center">
+
+            <%= link_to sp.app_id, '/login?app_id=' + sp.app_id %>
+          </h3>
+          <%= "Bootstrap 优站精选频道收集了众多基于 Bootstrap 构建、设计精美的、有创意的网站。" %>
+        </div>
+      </div>
+    </div>
 <% end %>
+</div>
 
 <h4 class="center"><%= link_to 'Read more on catalog', 'http://192.168.133.171/prm/catalog/1566#Overview' %></h4>
