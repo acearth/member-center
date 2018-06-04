@@ -1,14 +1,15 @@
-<div class="container">
+<div class="container list-group">
 <% @sp_list.each do |sp| %>
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3 class="center">
-
+      <div class="thumbnail" style="height:200px; padding: 0px;">
+        <div class="caption text-center" style="background-color: lightseagreen">
+          <h3>
             <%= link_to sp.app_id, '/login?app_id=' + sp.app_id %>
           </h3>
-          <%= sp.description %>
         </div>
+        <p style="padding: 20px;">
+          <%= sp.description %>
+        </p>
       </div>
     </div>
 <% end %>
