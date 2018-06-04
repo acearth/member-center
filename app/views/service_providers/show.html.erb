@@ -3,10 +3,14 @@
 <%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
 
 <p>
-  <strong>App:</strong>
+  <strong>App ID:</strong>
   <%= @service_provider.app_id %>
 </p>
 
+<p>
+  <strong>Application Name:</strong>
+  <%= @service_provider.app_name %>
+</p>
 <p>
   <strong>Auth level:</strong>
   <%= @service_provider.auth_level %>
@@ -33,10 +37,22 @@
 </p>
 
 <p>
+  <strong>Home page:</strong>
+  <%= @service_provider.home_page %>
+</p>
+<p>
   <strong>Callback URL:</strong>
   <%= @service_provider.callback_url %>
 </p>
+<p>
+  <strong>Revoke URL:</strong>
+  <%= @service_provider.revoke_url %>
+</p>
 
+<p>
+  <strong>Test use only?</strong>
+  <%= @service_provider.test_use_only %>
+</p>
 <p>
   <strong>SALT:</strong>
   <%= @service_provider.salt %>

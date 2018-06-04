@@ -36,7 +36,7 @@ class ServiceProvidersController < ApplicationController
   # POST /service_providers.json
   def create
     @service_provider = ServiceProvider.new(create_params)
-
+    @service_provider.salt = 'test use only' if @service_provider.test_only
     respond_to do |format|
       if @service_provider.save
         format.html { redirect_to @service_provider, notice: 'Service provider was successfully created.' }
@@ -84,7 +84,7 @@ class ServiceProvidersController < ApplicationController
     end
 
   def create_params
-    got = params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url)
+    got = params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url, :test_use_only, :app_name)
     got.merge({user: current_user, secret_key: ServiceProvider.new_secret_key, credential: ServiceProvider.new_credential})
   end
 
