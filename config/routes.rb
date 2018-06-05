@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'contact' => 'static_pages#contact'
   get '/feedbacks/new' => 'feedbacks#new'
   get '/feedbacks' => 'feedbacks#index'
+  post '/feedbacks' => 'feedbacks#create'
 
   put '/reset_sp_key/:id' => 'service_providers#reset_keys'
 
