@@ -36,7 +36,7 @@ class ServiceProvidersController < ApplicationController
   # POST /service_providers.json
   def create
     @service_provider = ServiceProvider.new(create_params)
-    @service_provider.salt = 'test use only' if @service_provider.test_only
+    @service_provider.salt = 'test use only' if @service_provider.test_use_only
     respond_to do |format|
       if @service_provider.save
         format.html { redirect_to @service_provider, notice: 'Service provider was successfully created.' }
