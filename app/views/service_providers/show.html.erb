@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
 
 <p>
@@ -15,17 +13,6 @@
   <strong>Auth level:</strong>
   <%= @service_provider.auth_level %>
 </p>
-
-<!--<p>-->
-<!--  <strong>Credential:</strong>-->
-<%#= @service_provider.credential %>
-<!--</p>-->
-
-<!--<p>-->
-<!--  <strong>Secret key:</strong>-->
-<%#= @service_provider.secret_key %>
-<!--</p>-->
-
 <p>
   <strong>User:</strong>
   <%= @service_provider.user.user_name %>
