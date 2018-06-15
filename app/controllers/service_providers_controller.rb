@@ -38,7 +38,7 @@ class ServiceProvidersController < ApplicationController
     @service_provider = ServiceProvider.new(create_params)
     respond_to do |format|
       if @service_provider.save
-        format.html { redirect_to @service_provider, notice: 'Service provider was successfully created.' }
+        format.html {redirect_to @service_provider, notice: "Service provider was successfully created.  Please save app_secret(ONLY SHOW ONCE). app_secret: #{@service_provider.credential}"}
         format.json { render :show, status: :created, location: @service_provider }
       else
         format.html { render :new }
