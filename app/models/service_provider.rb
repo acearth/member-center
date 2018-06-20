@@ -17,8 +17,6 @@ class ServiceProvider < ApplicationRecord
   def keep_test_tag
     if test_use_only
       self.salt = 'test use only'
-    else
-      self.salt = nil
     end
   end
 end
