@@ -32,6 +32,8 @@ services:
     volumes:
       - .:/myapp
     command: bundle exec sidekiq
+    environment:
+      - SIDEKIQ_REDIS_URL=redis://redis:6379/10
   redis:
     image: redis:alpine
     command: redis-server
