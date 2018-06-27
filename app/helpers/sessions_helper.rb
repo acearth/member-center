@@ -1,5 +1,5 @@
 module SessionsHelper
-  RSA_KEY = OpenSSL::PKey::RSA.new File.read 'config/jwt_key.pem'
+  RSA_KEY = OpenSSL::PKey::RSA.new File.read ENV['JWT_KEY_LOCATION']
 
   # Logs in the given user.
   def log_in(user)

@@ -52,6 +52,6 @@ task :build_docker do
 end
 task :restart_app do
   on roles(:app) do
-    execute "cd #{deploy_to}/current; docker-compose restart"
+    # execute "cd #{deploy_to}/current; docker-compose restart"
   end
 end
