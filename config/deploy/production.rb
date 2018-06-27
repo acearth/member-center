@@ -44,7 +44,6 @@ server "cbtk", roles: %W{app}
 #  }
 
 after "deploy:finished", "build_docker"
-after "deploy:finished", "reconfigure_app"
 after "deploy:finished", "restart_app"
 
 task :build_docker do
@@ -53,14 +52,10 @@ task :build_docker do
   end
 end
 
-task :reconfigure_app do
-  on roles(:app) do
-    execute "cd #{current_path}; docker-compose run web rails assets:precompile"
-    execute "cd #{current_path}; docker-compose run web rails db:migrate"
-  end
-end
 task :restart_app do
   on roles(:app) do
+    execute "cd #{current_path}; docker-compose run web rails assets:precompile"
     execute "cd #{deploy_to}/current; docker-compose down; docker-compose up -d"
+    execute "cd #{current_path}; docker-compose run web rails db:migrate"
   end
 end
