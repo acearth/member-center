@@ -3,7 +3,8 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "genius.internal.worksap.com", roles: %W{app}
+# server "genius.internal.worksap.com", roles: %W{app}
+server "cbtk", roles: %W{app}
 #, roles: %w{app0 app1 app2}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
@@ -44,8 +45,13 @@ server "genius.internal.worksap.com", roles: %W{app}
 
 after "deploy:finished", "restart_app"
 
+task :build_docker do
+  on roles(:app) do
+    execute "cd #{deploy_to}/current; docker-compose build"
+  end
+end
 task :restart_app do
   on roles(:app) do
-    execute '~/workspace/deploy_genius.sh'
+    execute "cd #{deploy_to}/current; docker-compose restart"
   end
 end

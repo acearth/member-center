@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: Rails.configuration.mail['default_from']
+  default from: ENV['DEFAULT_MAIL_FROM']
   layout 'mailer'
 end

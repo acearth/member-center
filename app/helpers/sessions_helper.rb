@@ -95,7 +95,7 @@ module SessionsHelper
     payload = {
         user_name: user.user_name
     }
-    token = JWT.encode payload, Rails.configuration.jwt['secret'], 'HS256'
+    token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
     cookies[:jwt_genius] = {
         domain: '.internal.worksap.com',
         expires: 1.month.from_now,

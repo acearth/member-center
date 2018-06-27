@@ -3,7 +3,7 @@ class Api::V1::GeniusController < ApplicationController
   before_action :set_service_proivider
 
   def jwt_user
-    secret = Rails.configuration.jwt['secret']
+    secret = ENV['JWT_SECRET']
     json = JWT.decode params[:jwt] || cookies[:jwt_genius], secret, true, {:algorithm => 'HS256'}
     result = {code: 0, user_name: json.first['user_name'], sign: CommonUtils.md5_sign("0-#{json.first['user_name']}-#{@service_provider.secret_key}")}
     render json: result

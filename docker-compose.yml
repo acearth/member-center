@@ -4,15 +4,17 @@ services:
     container_name: genius
     build: .
     command: bundle exec rails server -p 3000 -b 0.0.0.0
+#    env_file:
+#      - production.env
     environment:
       - RAILS_ENV=production
       - RAILS_SERVE_STATIC_FILES=true # TODO-remove: configure nginx and remove this line
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - DB_NAME=${DB_NAME}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+#      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+#      - DB_NAME=${DB_NAME}
+#      - DB_HOST=${DB_HOST}
+#      - DB_PORT=${DB_PORT}
+#      - DB_USER=${DB_USER}
+#      - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - .:/myapp
     ports:
@@ -24,6 +26,8 @@ services:
     volumes:
       #- /home/ubuntu/an_x/genius-center13000/postgresql.conf:/usr/local/share/postgresql/postgresql.conf
       - /data/pgdata:/var/lib/postgresql/data
+#    env_file:
+#      - production.env
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
