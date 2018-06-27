@@ -16,11 +16,10 @@ module GeniusCenter
     # -- all .rb files in that directory are automatically loaded.
 
     # Configuration for sending mail
-    config.mail = config_for(:mail)
-    config.action_mailer.default_url_options = {:host => Rails.configuration.mail['default_host']}
+    config.action_mailer.default_url_options = {:host => ENV['MAIL_URL_HOST']}
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        address: Rails.configuration.mail['smtp_server'],
+        address: ENV['SMTP_SERVER'],
         enable_starttls_auto: true
     }
 
@@ -30,8 +29,5 @@ module GeniusCenter
 
     # TODO-change: host
     config.cache_store = :redis_store, "redis://localhost:6379/0/cache", {expires_in: 90.minutes}
-
-    config.ldap = config_for(:ldap)
-    config.jwt = config_for(:jwt)
   end
 end

@@ -14,7 +14,7 @@ class PasswordResetsController < ApplicationController
     if params[:reset_form][:reset_way] == 'email'
       if user = User.find_by_email(params[:reset_form][:email])
         UserMailer.password_reset(user,edit_password_resets_url).deliver_later
-        flash[:warning] = 'Password reset email has been sent. Please check your mailbox.'
+        flash[:notice] = 'Password reset email has been sent. Please check your mailbox.'
       else
         flash[:warning] = 'No corresponding user found.'
       end

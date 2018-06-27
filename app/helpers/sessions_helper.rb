@@ -1,5 +1,5 @@
 module SessionsHelper
-  RSA_KEY = OpenSSL::PKey::RSA.new File.read 'config/jwt_key.pem'
+  RSA_KEY = OpenSSL::PKey::RSA.new File.read (File.realpath(ENV['JWT_KEY_LOCATION']))
 
   # Logs in the given user.
   def log_in(user)
@@ -95,7 +95,7 @@ module SessionsHelper
     payload = {
         user_name: user.user_name
     }
-    token = JWT.encode payload, Rails.configuration.jwt['secret'], 'HS256'
+    token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
     cookies[:jwt_genius] = {
         domain: '.internal.worksap.com',
         expires: 1.month.from_now,

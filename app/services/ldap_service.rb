@@ -3,11 +3,11 @@ class LdapService
   CONNECTION_CONFIG = {
       auth: {
           method: :simple,
-          username: Rails.configuration.ldap['admin_dn'],
-          password: Rails.configuration.ldap['admin_password']
+          username: ENV['LDAP_ADMIN_DN'],
+          password: ENV['LDAP_ADMIN_PASSWORD']
       },
-      host: Rails.configuration.ldap['host'],
-      port: Rails.configuration.ldap['port'] || '389'
+      host: ENV['LDAP_HOST'],
+      port: ENV['LDAP_PORT'] || '389'
   }
 
   class << self
@@ -62,7 +62,7 @@ class LdapService
     end
 
     def user_dn(user_name)
-      "cn=#{user_name}," + Rails.configuration.ldap['user_base_dn']
+      "cn=#{user_name}," + ENV['LDAP_USER_BASE_DN']
     end
   end
 end
