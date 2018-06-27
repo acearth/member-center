@@ -8,7 +8,6 @@ set :repo_url, 'https://github.com/acearth/genius-center.git'
 # set :rvm_ruby_version, '2.4.1'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-set :branch, "d26"
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/var/www/#{fetch :application}"
