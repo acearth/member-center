@@ -54,8 +54,9 @@ end
 
 task :restart_app do
   on roles(:app) do
-    execute "cd #{current_path}; docker-compose run --rm web rails assets:precompile"
-    execute "cd #{deploy_to}/current; docker-compose down; docker-compose up -d"
-    execute "cd #{current_path}; docker-compose run --rm web rails db:migrate"
+    execute "cd #{previous_release_path}; docker-compose down"
+    execute "cd #{current_path}; docker-compose up -d"
+    execute "cd #{current_path}; docker-compose exec $(docker-compose ps -q web) rails assets:precompile"
+    execute "cd #{current_path}; docker-compose exec $(docker-compose ps -q web) rails db:migrate"
   end
 end
