@@ -5,7 +5,7 @@
 
 # server "genius.internal.worksap.com", roles: %W{app}
 # server "cbtk", roles: %W{app}
-server "aws19", roles: %W{app}
+server "aws245", roles: %W{app}
 #, roles: %w{app0 app1 app2}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
