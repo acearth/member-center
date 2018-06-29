@@ -4,5 +4,7 @@ RUN apk update && apk add --upgrade build-base postgresql-dev yarn nodejs
 WORKDIR /myapp
 ADD . /myapp
 ENV RAILS_ENV production
-RUN bundle install --without development test && rails assets:precompile
+# NOTE: On AWS, rubygems.org works bad. Using China mirror instead(Kindly quick)
+RUN bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+RUN bundle install --without development test
 EXPOSE 3000

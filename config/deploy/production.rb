@@ -58,5 +58,6 @@ task :restart_app do
   on roles(:app) do
     execute "cd #{deploy_to}/docker-genius; docker-compose up -d"
     execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails db:migrate"
+    execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails assets:precompile"
   end
 end
