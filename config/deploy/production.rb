@@ -4,7 +4,8 @@
 # You can define all roles on a single server, or split them:
 
 # server "genius.internal.worksap.com", roles: %W{app}
-server "cbtk", roles: %W{app}
+# server "cbtk", roles: %W{app}
+server "aws19", roles: %W{app}
 #, roles: %w{app0 app1 app2}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
@@ -55,8 +56,7 @@ end
 
 task :restart_app do
   on roles(:app) do
-    execute "cd #{deploy_to}/docker-genius; docker-compose restart"
-    execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails assets:precompile"
+    execute "cd #{deploy_to}/docker-genius; docker-compose up -d"
     execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails db:migrate"
   end
 end

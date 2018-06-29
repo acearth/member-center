@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 # lock "3.10.1"
 
-set :application, 'GeniusCenter'
+set :application, 'genius'
 set :repo_url, 'https://github.com/acearth/genius-center.git'
 
 # set :rvm_type, :auto
@@ -12,7 +12,7 @@ set :repo_url, 'https://github.com/acearth/genius-center.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/var/www/#{fetch :application}"
 
-set :linked_files, ['.env', 'config/jwt_key.pem']
+# set :linked_files, ['.env', 'config/jwt_key.pem']
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -33,4 +33,4 @@ set :linked_files, ['.env', 'config/jwt_key.pem']
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
-set :keep_releases, 2
+# set :keep_releases, 5
