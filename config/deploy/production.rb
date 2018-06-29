@@ -43,20 +43,20 @@ server "cbtk", roles: %W{app}
 #    auth_methods: %w(password)
 #  }
 
-after "deploy:finished", "build_docker"
+after "deploy:finished", "pull_newest_code"
 after "deploy:finished", "restart_app"
 
-task :build_docker do
+
+task :pull_newest_code do
   on roles(:app) do
-    execute "cd #{current_path}; docker-compose build"
+    execute "cd #{deploy_to}/docker-genius; git pull origin master"
   end
 end
 
 task :restart_app do
   on roles(:app) do
-    execute "cd #{previous_release_path}; docker-compose down"
-    execute "cd #{current_path}; docker-compose up -d"
-    execute "cd #{current_path}; docker-compose exec $(docker-compose ps -q web) rails assets:precompile"
-    execute "cd #{current_path}; docker-compose exec $(docker-compose ps -q web) rails db:migrate"
+    execute "cd #{deploy_to}/docker-genius; docker-compose restart"
+    execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails assets:precompile"
+    execute "cd #{deploy_to}/docker-genius; docker-compose exec -T web rails db:migrate"
   end
 end
