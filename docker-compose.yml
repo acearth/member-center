@@ -25,6 +25,8 @@ services:
       POSTGRES_DB: ${DB_NAME}
   sidekiq:
     network_mode: "host"
+    env_file:
+      - .env
     build: .
     volumes:
       - .:/myapp
