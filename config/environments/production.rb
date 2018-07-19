@@ -92,5 +92,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_dispatch.trusted_proxies= ENV['TRUSTED_HTTP_PROXIES'].split(',').split.flatten
+  config.action_dispatch.trusted_proxies= ENV['TRUSTED_HTTP_PROXIES'].split(',')
 end
