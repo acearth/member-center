@@ -1,6 +1,7 @@
 version: '3.2'
 services:
   web:
+    restart: always
     network_mode: "host"
     build: .
     command: bundle exec rails server -p ${APP_PORT} 
@@ -8,11 +9,12 @@ services:
       - .env
     environment:
       - RAILS_ENV=production
-      - RAILS_SERVE_STATIC_FILES=true # TODO-remove: configure nginx and remove this line
+      - RAILS_SERVE_STATIC_FILES=true
     volumes:
       - .:/myapp
 
   db:
+    restart: always
     command: -p ${DB_PORT}
     network_mode: "host"
     image: postgres:alpine
@@ -24,6 +26,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
   sidekiq:
+    restart: always
     network_mode: "host"
     env_file:
       - .env
@@ -32,6 +35,7 @@ services:
       - .:/myapp
     command: bundle exec sidekiq
   redis:
+    restart: always
     network_mode: "host"
     image: redis:alpine
     command: redis-server
