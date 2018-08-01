@@ -35,11 +35,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.credential = SecureRandom.base58(32)
-    @user.role = @user.email.include?("@worksap.co.jp") ? :inactive : :ordinary
+    @user.role = :inactive
     respond_to do |format|
       if @user.save
         LdapService.add_user_entry(@user.user_name, user_params[:password], @user.email)
-        UserMailer.activate(@user, activate_user_url(@user)).deliver_later if @user.email.include?("@worksap.co.jp")
+        UserMailer.activate(@user, activate_user_url(@user)).deliver_later
         format.html {redirect_to @user, notice: 'User was successfully created. Please check your mailbox.'}
         format.json {render :show, status: :created, location: @user}
       else
