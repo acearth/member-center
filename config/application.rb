@@ -19,11 +19,10 @@ module GeniusCenter
     config.action_mailer.default_url_options = {:host => ENV['MAIL_URL_HOST']}
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-	address: ENV['SMTP_SERVER'] || 'smtp.google.com',
-	port: ENV['SMTP_PORT'] || 587,
-	domain: ENV['MAIL_DOMAIN'] || 'worksap.co.jp',
-	user_name: ENV['SENDER_USER_NAME'],
-	password: ENV['SENDER_PASSWORD'],
+	address: ENV['SMTP_SERVER'],
+	port: ENV['SMTP_PORT'],
+	domain: ENV['MAIL_DOMAIN'],
+	# authentication is not required in internal network, so no username/password pair
         enable_starttls_auto: true
     }
 
