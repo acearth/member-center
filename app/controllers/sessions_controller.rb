@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         if !user.invalid_role? || user.user_name.start_with?('test')
           log_in user
           remember user if info[:remember_me]
-          redirect_to login_back(user)
+          redirect_to login_back(user.email)
         else
           flash[:warning] = 'User not activated. Please check your email later.'
           UserMailer.activate(user, activate_user_url(user)).deliver_later
