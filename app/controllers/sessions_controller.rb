@@ -81,7 +81,9 @@ class SessionsController < ApplicationController
       ticket = Ticket.create(service_provider: @service_provider, email: email, request_ip: real_ip)
       ticket.save
       return params[:redirect_from] if params[:redirect_from]
-      return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}&#{foreign_params.to_query}"
+      the_url = "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}"
+      the_url += "&#{foreign_params.to_query}" if foreign_params
+      return the_url
     else
       return root_path
     end
