@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_084644) do
+ActiveRecord::Schema.define(version: 2018_08_09_105119) do
 
   create_table "account_events", force: :cascade do |t|
     t.integer "event_type"
@@ -98,14 +98,13 @@ ActiveRecord::Schema.define(version: 2018_08_09_084644) do
 
   create_table "tickets", force: :cascade do |t|
     t.integer "service_provider_id", null: false
-    t.integer "user_id", null: false
     t.string "request_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "used"
     t.string "email"
+    t.integer "user_id"
     t.index ["service_provider_id"], name: "index_tickets_on_service_provider_id"
-    t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
   create_table "user_securities", force: :cascade do |t|

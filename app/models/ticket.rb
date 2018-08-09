@@ -1,6 +1,5 @@
 class Ticket < ApplicationRecord
   belongs_to :service_provider
-  belongs_to :user
 
   def par_value
     CommonUtils.aes_encrypt(service_provider.secret_key, service_provider.salt.to_s + id.to_s)
