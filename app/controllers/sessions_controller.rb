@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
         redirect_to login_path
       end
     else
-      user = User.find_by_user_name(info[:user_name])
+      user = User.find_by_user_name(info[:login])
       if user && user.authenticate(info[:password])
         if !user.invalid_role? || user.user_name.start_with?('test')
           log_in user
