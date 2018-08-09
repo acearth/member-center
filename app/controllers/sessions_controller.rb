@@ -1,36 +1,66 @@
 class SessionsController < ApplicationController
+
+  USER_DN = 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
   include SessionsHelper
 
   before_action :set_third_party, only: [:new, :create]
 
   def new
-    redirect_to login_back(current_user) and return if current_user
+    redirect_to login_back(current_user.email) and return if current_user
     @service_provider = ServiceProvider.find_by_app_id(params[:app_id])
     render layout: false
   end
 
   def create
-    info = params.require(:session).permit(:user_name, :password, :remember_me, :app_id)
-    user = User.find_by_user_name(info[:user_name])
-    if user && user.authenticate(info[:password])
-      if  !user.invalid_role? || user.user_name.start_with?('test')
-        log_in user
-        remember user if info[:remember_me]
-        redirect_to login_back(user)
+    info = params.require(:session).permit(:login, :password, :remember_me, :app_id)
+    if info[:login].include?('@')
+      if ldap_user = authenticate_and_fetch(info[:login], info[:password])
+        its_user(ldap_user, info[:remember_me])
+        redirect_to login_back(ldap_user[:mail])
       else
-        flash[:warning] = 'User not activated. Please check your email later.'
-        UserMailer.activate(user, activate_user_url(user)).deliver_later
-        redirect_to root_path
+        flash[:error] = 'ITS LDAP email / password wrong!  Reset password on http://reg.internal.worksap.com if you forgot it'
+        redirect_to login_path
       end
     else
-      flash[:warning] = I18n.t('wrong_user_or_password')
-      render 'new'
+      user = User.find_by_user_name(info[:user_name])
+      if user && user.authenticate(info[:password])
+        if !user.invalid_role? || user.user_name.start_with?('test')
+          log_in user
+          remember user if info[:remember_me]
+          redirect_to login_back(user)
+        else
+          flash[:warning] = 'User not activated. Please check your email later.'
+          UserMailer.activate(user, activate_user_url(user)).deliver_later
+          redirect_to root_path
+        end
+      else
+        flash[:warning] = I18n.t('wrong_user_or_password')
+        render 'new'
+      end
     end
   end
 
+  ### ONLY works for worksap user
+  def authenticate_and_fetch(email, password)
+    prefix = email.split('@worksap.co.jp').first
+    Net::LDAP.new(host: 'ldap-jp01.workslan').open do |server|
+      server.auth("uid=#{prefix},ou=ldap_users,dc=internal,dc=worksap,dc=com", password)
+      if server.bind
+        filter = Net::LDAP::Filter.eq("uid", prefix)
+        result = server.search(base: USER_DN, filter: filter)
+        return result.first if server.get_operation_result['code'] == 0
+      end
+    end
+    false
+  end
 
   def destroy
-    log_out if logged_in?
+    if logged_in?
+      puts "-------"
+      puts current_user.inspect
+      puts "-------curre---------"
+      log_out
+    end
     redirect_to login_path
   end
 
@@ -47,16 +77,17 @@ class SessionsController < ApplicationController
     end
   end
 
-  def login_back(user)
+
+  def login_back(email)
     foreign_params = request.query_parameters.dup
     foreign_params.delete('app_id')
     if @service_provider
-      ticket = Ticket.create(service_provider: @service_provider, user: user, request_ip: real_ip)
+      ticket = Ticket.create(service_provider: @service_provider, email: email, request_ip: real_ip)
       ticket.save
       return params[:redirect_from] if params[:redirect_from]
       return "#{CommonUtils.format_query(@service_provider.callback_url)}&ticket=#{ticket.par_value}&sign=#{ticket.sign}&#{foreign_params.to_query}"
     else
-      return user
+      return root_path
     end
   end
 

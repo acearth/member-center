@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604043244) do
+ActiveRecord::Schema.define(version: 2018_08_09_084644) do
 
   create_table "account_events", force: :cascade do |t|
     t.integer "event_type"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20180604043244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "used"
+    t.string "email"
     t.index ["service_provider_id"], name: "index_tickets_on_service_provider_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
@@ -126,6 +127,7 @@ ActiveRecord::Schema.define(version: 20180604043244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "remember_digest"
+    t.string "display_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end

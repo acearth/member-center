@@ -45,6 +45,10 @@ class Api::V1::GeniusController < ApplicationController
   #   app_id
   #   ticket
   #   sign
+  #
+  # TODO-verify: TICKET USER EMAIL
+  # 1. try cookie first after validation
+  # 2. fetch by ITS LDAP
   def authenticate
     mandatory_keys = [:app_id, :ticket, :sign]
     if params.slice(*mandatory_keys).values.any?(&:nil?)
