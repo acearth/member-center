@@ -14,6 +14,7 @@ class Api::V1::GeniusController < ApplicationController
   end
 
   def exist?
+    #TODO-check
     render plain: (User.find_by_user_name(params[:user_name]) && true || false)
   end
 
@@ -88,7 +89,7 @@ class Api::V1::GeniusController < ApplicationController
     res.merge!({user: {user_name: user.user_name,
                        employee_id: user.emp_id,
                        email: user.email}}) if user
-    res.merge!({note: 'This user authenticated by ITS LDAP '}) if user.id.nil?
+    res.merge!({note: 'This user authenticated by ITS LDAP '}) unless user.id
     res.merge ({sign: signature})
   end
 
@@ -99,17 +100,13 @@ class Api::V1::GeniusController < ApplicationController
   def fetch_ldap_user(email)
     prefix = email.split("@worksap.co.jp").first
     Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
-      server.auth("uid=#{prefix},ou=ldap_users,dc=internal,dc=worksap,dc=com", password)
-      if server.bind
         filter = Net::LDAP::Filter.eq("uid", prefix)
         result = server.search(base: USER_DN, filter: filter)
-        # return result.first if server.get_operation_result['code'] == 0
-        if server.get_operation_result['code'] == 0
-          return User.new(user_name: email.split("@worksap.co.jp").first, ##TODO-confirm: ITS LDAP user confirm
-                          emp_id: result.first['employeenumber'],
-                          email: email, note: 'This user from ITS LDAP')
+        emp_id = result.first[:employeenumber].first if server.get_operation_result['code'] == 0
         end
-      end
+        User.new(user_name: email.split("@worksap.co.jp").first, ##TODO-confirm: ITS LDAP user confirm
+                 emp_id: emp_id || 'Failed to fetch from ITS LDAP',
+                 email: email, note: 'This user from ITS LDAP')
     end
   end
 end
