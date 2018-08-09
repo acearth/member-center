@@ -16,8 +16,7 @@ class CommonUtils
     end
 
     def format_query(url, options = [])
-      return puts "Cannot process HTTPS protocol: #{url} " if url.include?('https')
-      url = 'http://' + url unless url.start_with?('http://')
+      url = 'http://' + url unless url.start_with?('http://') || url.start_with?('https://')
       url.include?('?') ? url : url + '?'
     end
 
