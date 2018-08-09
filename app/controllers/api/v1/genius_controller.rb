@@ -98,7 +98,7 @@ class Api::V1::GeniusController < ApplicationController
 
   def fetch_ldap_user(email)
     prefix = email.split("@worksap.co.jp").first
-    Net::LDAP.new(host: 'ldap-jp01.workslan').open do |server|
+    Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
       server.auth("uid=#{prefix},ou=ldap_users,dc=internal,dc=worksap,dc=com", password)
       if server.bind
         filter = Net::LDAP::Filter.eq("uid", prefix)

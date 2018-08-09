@@ -43,7 +43,8 @@ class SessionsController < ApplicationController
   ### ONLY works for worksap user
   def authenticate_and_fetch(email, password)
     prefix = email.split('@worksap.co.jp').first
-    Net::LDAP.new(host: 'ldap-jp01.workslan').open do |server|
+    # NOTE: use SSH tunnel to forward request
+    Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
       server.auth("uid=#{prefix},ou=ldap_users,dc=internal,dc=worksap,dc=com", password)
       if server.bind
         filter = Net::LDAP::Filter.eq("uid", prefix)
@@ -55,12 +56,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if logged_in?
-      puts "-------"
-      puts current_user.inspect
-      puts "-------curre---------"
-      log_out
-    end
+    log_out if logged_in?
     redirect_to login_path
   end
 
