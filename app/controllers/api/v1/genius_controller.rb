@@ -108,5 +108,4 @@ class Api::V1::GeniusController < ApplicationController
                  emp_id: emp_id || 'Failed to fetch from ITS LDAP',
                  email: email, note: 'This user from ITS LDAP')
     end
-  end
 end
