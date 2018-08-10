@@ -16,6 +16,11 @@ class SessionsController < ApplicationController
     if info[:login].include?('@')
       if ldap_user = authenticate_and_fetch(info[:login], info[:password])
         its_user(ldap_user, info[:remember_me])
+        if LdapService.find_by_uid(info[:login]).size > 0
+          LdapService.set_password(info[:login], info[:password])
+        else
+          LdapService.add_email_entry(info[:login], info[:password])
+        end
         redirect_to login_back(ldap_user[:mail].first)
       else
         flash[:error] = 'ITS LDAP email / password wrong!  Reset password on http://reg.internal.worksap.com if you forgot it'

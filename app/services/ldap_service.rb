@@ -15,6 +15,22 @@ class LdapService
       User.all.reject {|user| user.ldap_stored?}
     end
 
+    def add_email_entry(email, password)
+      email_prefix = email.split("@").first
+      entry = {
+          uid: email,
+          userpassword: Net::LDAP::Password.generate(:md5, password),
+          cn: email,
+          sn: email,
+          mail: email,
+          homedirectory: email_prefix,
+          uidnumber: "#{Time.now.to_i * 100}",
+          gidnumber: ORDINARY_USER_GROUP_ID,
+          objectclass: ['top', 'posixAccount', 'inetOrgPerson']
+      }
+      open_ldap {|server| server.add(dn: user_dn(email), attributes: entry)}
+    end
+
     def add_user_entry(user_name, password, mail)
       entry = {
           uid: user_name,
@@ -41,6 +57,10 @@ class LdapService
       open_ldap {|server| server.modify dn: role_dn, operations: ops}
     end
 
+    def find_by_uid(uid)
+      filter = Net::LDAP::Filter.eq("uid", uid)
+      open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
+    end
     def find_user(user_name)
       filter = Net::LDAP::Filter.eq("cn", user_name)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
