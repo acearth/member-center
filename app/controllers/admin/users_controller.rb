@@ -26,7 +26,7 @@ class Admin::UsersController < ApplicationController
         user.role = params[:new_role]
         user.save if user.id
       end
-      LdapService.attach_role(params[:new_role], user_name)
+      LdapService.attach_role(params[:new_role], user.user_name)
     end
     render 'users/index'
   end
