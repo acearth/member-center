@@ -30,7 +30,7 @@
           <%= check_box_tag('user_' + user.id.to_s, user.user_name) %>
         </td>
         <td>
-          <%= link_to user.user_name, user_path(user) %></td>
+        <td><%= (user.display_name || user.user_name) %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
       </tr>

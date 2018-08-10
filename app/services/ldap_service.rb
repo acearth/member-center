@@ -10,6 +10,8 @@ class LdapService
       port: ENV['LDAP_PORT'] || '389'
   }
 
+  ROLE = ['admin', 'cimaster', 'ordinary']
+
   class << self
     def find_lost_user
       User.all.reject {|user| user.ldap_stored?}
@@ -49,6 +51,16 @@ class LdapService
     def set_password(user_name, new_password)
       md5_password = Net::LDAP::Password.generate(:md5, new_password)
       open_ldap {|server| server.replace_attribute(user_dn(user_name), 'userpassword', md5_password)}
+    end
+
+    #TODO-confirm
+    def get_role(user_name)
+      ROLE.each do |role|
+        role_dn = "cn=#{role},ou=groups,dc=worksap,dc=com"
+        filter = Net::LDAP::Filter.eq("uid", user_name)
+        ops = [[:search, :memberuid, user_name]]
+        open_ldap {|server| server.search base: role_dn, filter: filter}
+      end
     end
 
     def attach_role(role_name, user_name)

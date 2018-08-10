@@ -6,18 +6,26 @@ class Admin::UsersController < ApplicationController
   
   def index
     @users = []
-    @users = User.search(params[:keywords]) if params[:keywords]
+    if params[:keywords]
+      ldap_result = LdapService.find_user(params[:keywords])
+      if ldap_result.size > 0
+        ldap_email = ldap_result.first[:mail].first
+        @users = [User.new(user_name: ldap_email, email: ldap_email, role: 'CI LDAP')]
+      end
+      @users += User.search(params[:keywords])
+    end
     @users.reject! {|user| user.role == 'inactive'}
     render 'users/index'
   end
 
   def role
-    @users = params.select {|k, _| k.to_s.start_with?('user_')}.values
-                 .map {|user_name| User.find_by_user_name(user_name)}
-    @users.each do |user|
-      user.role = params[:new_role]
-      user.save
-      LdapService.attach_role(params[:new_role], user.user_name)
+    @user_names = params.select {|k, _| k.to_s.start_with?('user_')}.values
+    @user_names.each do |name|
+      if user = User.find_by_user_name(name)
+        user.role = params[:new_role]
+        user.save
+      end
+      LdapService.attach_role(params[:new_role], name)
     end
     render 'users/index'
   end
