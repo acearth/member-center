@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :user_name, format: {with: /\A[a-z]([a-z0-9]*\.?)*[a-z0-9]+\z/, message: I18n.t('user_name_hint')}, length: {minimum: 3}, on: [:create, :save, :update]
   validates :email, format: {with: /\A(\w+[\.\-]?)*\w+@(worksap\.co\.jp|ivtlinfoview\.com|ivtlinfoview\.co\.jp|legendapl\.com\.cn)\z/, message: 'Invalid Email'}, uniqueness: true, on: :create
   validates :password, length: {minimum: 6}, if: :password
-  enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4, cimaster: 12}
+  enum role: {ordinary: 0, admin: 1, inactive: 2, at_risk: 3, resigned: 4, cimaster: 12, ci_ldap: 20}
   attr_accessor :remember_token
   after_create {UserSecurity.create(user: self)}
   has_secure_password
