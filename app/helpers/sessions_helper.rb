@@ -21,11 +21,12 @@ module SessionsHelper
         expires: remember_me ? 1.month.from_now : 1.day.from_now
     }
     # TODO-confirm: set Genius JWT only when the user already registered
-    user = User.find_by_email(ldap_entry[:mail])
-    if user
+    user = User.new(display_name: jwt_payload[:display_name],
+                    user_name: jwt_payload[:display_name],
+                    emp_id: jwt_payload[:email],
+                    email: jwt_payload[:email])
       guarantee_jwt(user)
       jwt_rsa(user)
-    end
   end
 
   # Remembers a user in a persistent session.
