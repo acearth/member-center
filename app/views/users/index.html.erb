@@ -27,7 +27,7 @@
     <% @users.each do |user| %>
       <tr>
         <td>
-          <%= check_box_tag('user_' + user.id.to_s, user.user_name) %>
+          <%= check_box_tag("user::#{user.id || user.user_name}", user.user_name) %>
         </td>
         <td>
         <td><%= (user.display_name || user.user_name) %></td>
