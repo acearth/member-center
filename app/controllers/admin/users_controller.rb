@@ -19,7 +19,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def role
-    @users = params.select {|k, _| k.to_s.start_with?('user_')}.values
+    @users = params.select {|k, _| k.to_s.start_with?('user::')}.values
     @users = @users.map {|user_name| User.find_by_user_name(user_name) || User.new(user_name: user_name, email: user_name, role: 'ci_ldap')}
     @users.each do |user|
       if user
