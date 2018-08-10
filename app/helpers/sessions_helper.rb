@@ -21,9 +21,11 @@ module SessionsHelper
         expires: remember_me ? 1.month.from_now : 1.day.from_now
     }
     # TODO-confirm: set Genius JWT only when the user already registered
+    genius = User.find_by_email(jwt_payload[:email])
     user = User.new(display_name: jwt_payload[:display_name],
                     user_name: jwt_payload[:display_name],
-                    emp_id: jwt_payload[:email],
+                    emp_id: jwt_payload[:emp_id],
+                    role: genius && genius.role || :ordinary,
                     email: jwt_payload[:email])
       guarantee_jwt(user)
       jwt_rsa(user)
