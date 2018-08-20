@@ -20,13 +20,13 @@ class Admin::UsersController < ApplicationController
 
   def role
     @users = params.select {|k, _| k.to_s.start_with?('user::')}.values
-    @users = @users.map {|user_name| User.find_by_user_name(user_name) || User.new(user_name: user_name, email: user_name, role: 'ci_ldap')}
+    @users = @users.map {|user_name| User.find_by_user_name(user_name) || User.new(user_name: user_name, email: user_name, role: LdapService.role(user_name) || 'ordinary')}
     @users.each do |user|
       if user
         user.role = params[:new_role]
         user.save if user.id
       end
-      LdapService.attach_role(params[:new_role], user.user_name)
+      LdapService.set_role(params[:new_role], user.user_name)
     end
     render 'users/index'
   end

@@ -12,7 +12,39 @@ class LdapService
 
   ROLE = ['admin', 'cimaster', 'ordinary']
 
+  GROUP_BASE_DN = 'ou=groups,dc=worksap,dc=com'
+
   class << self
+    def role(user)
+      attached_roles = []
+      all_role.each do |role|
+        role_filter = Net::LDAP::Filter.eq("cn", role)
+        user_filter = Net::LDAP::Filter.contains("memberuid", user)
+        filter = Net::LDAP::Filter.join(role_filter, user_filter)
+        open_ldap do |server|
+          if server.search(base: GROUP_BASE_DN, filter: filter).any?
+            attached_roles << role
+          end
+        end
+      end
+      if attached_roles.size > 1
+        return ["NOT ACCEPTED"]
+      end
+      attached_roles.first
+    end
+
+    def all_role
+      condition = Net::LDAP::Filter.present("cn")
+      open_ldap {|server| return server.search(base: GROUP_BASE_DN, attributes: 'cn', filter: condition).flat_map(&:cn)}
+    end
+
+    def set_role(role_name, user)
+      open_ldap do |server|
+        all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, user]]}
+        server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, user]]
+      end
+    end
+
     def find_lost_user
       User.all.reject {|user| user.ldap_stored?}
     end
