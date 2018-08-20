@@ -56,7 +56,7 @@ module SessionsHelper
   def current_user
     if ldap_jwt_valid?
       user_info = (JWT.decode cookies[:ldap_jwt], Rails.application.credentials.secret_key_base, true, {algorithm: 'HS256'}).first
-      @current_user = User.new(email: user_info['email'], emp_id: user_info['emp_id'], display_name: user_info['display_name'])
+      @current_user = User.new(email: user_info['email'], emp_id: user_info['emp_id'], display_name: user_info['display_name'], role: LdapService.role(user_info['email']) || 'ordinary')
     else
       if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
