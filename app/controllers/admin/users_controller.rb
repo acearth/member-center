@@ -10,7 +10,7 @@ class Admin::UsersController < ApplicationController
       ldap_result = LdapService.find_user(params[:keywords])
       if ldap_result.size > 0
         ldap_email = ldap_result.first[:mail].first
-        @users = [User.new(user_name: ldap_email, email: ldap_email, role: 'ci_ldap')]
+        @users = [User.new(user_name: ldap_email, email: ldap_email, role: LdapService.role(user_name) || 'ordinary')]
       end
       @users += User.search(params[:keywords])
     end
