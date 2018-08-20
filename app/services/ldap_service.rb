@@ -106,7 +106,7 @@ class LdapService
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
     def find_user(user_name)
-      filter = Net::LDAP::Filter.eq("cn", user_name)
+      filter = Net::LDAP::Filter.eq("cn", "#{user_name}*")
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
 
