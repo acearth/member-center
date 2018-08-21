@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_forgery_protection
 
   USER_DN = 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
   include SessionsHelper
