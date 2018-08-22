@@ -30,7 +30,15 @@ class LdapService
       if attached_roles.size > 1
         return ["NOT ACCEPTED"]
       end
-      attached_roles.first
+      attached_roles.first || 'ordinary'
+    end
+
+    def member_list(role)
+      condition = Net::LDAP::Filter.eq("cn", role)
+      open_ldap do |server|
+        result = server.search(base: GROUP_BASE_DN, filter: condition).first
+        return result ? result.memberuid : []
+      end
     end
 
     def all_role
@@ -106,7 +114,7 @@ class LdapService
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
     def find_user(user_name)
-      filter = Net::LDAP::Filter.eq("cn", "#{user_name}*")
+      filter = Net::LDAP::Filter.eq("cn", user_name)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
 

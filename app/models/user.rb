@@ -41,6 +41,7 @@ class User < ApplicationRecord
   class << self
 
     def search(keywords)
+      return if keywords.nil? || keywords.empty?
       keywords.split(',').flat_map {|keyword| search_user(keyword.strip)}
     end
 

@@ -7,14 +7,19 @@ class Admin::UsersController < ApplicationController
   def index
     @users = []
     if params[:keywords]
-      ldap_result = LdapService.find_user(params[:keywords])
-      if ldap_result.size > 0
-        ldap_email = ldap_result.first[:mail].first
-        @users = [User.new(user_name: ldap_email, email: ldap_email, role: LdapService.role(ldap_email) || 'ordinary')]
+      ldap_search_users = LdapService.find_user(params[:keywords]).map do |item|
+        User.new(user_name: item.cn.first, email: item.mail.first, role: LdapService.role(item.cn.first))
       end
-      @users += User.search(params[:keywords])
+
+      ldap_role_users = LdapService.member_list(params[:keywords]).map do |cn|
+        email = cn.include?('@') ? cn : LdapService.find_user(cn).first.mail.first
+        User.new(user_name: cn, email: email, role: params[:keywords])
+      end
+      @users = ldap_search_users + ldap_role_users
     end
-    @users.reject! {|user| user.role == 'inactive'}
+    searched_result = User.search(params[:keywords])
+    @users += searched_result if searched_result
+    @users.uniq! {|u| u.user_name}
     render 'users/index'
   end
 
