@@ -152,5 +152,11 @@ class LdapService
     def user_dn(user_name)
       "cn=#{user_name}," + ENV['LDAP_USER_BASE_DN']
     end
+
+    def sync_genius_role(cn, role)
+      user = User.find_by_email(cn) || User.find_by_user_name(cn)
+      user.role = role if user
+      user.save
+    end
   end
 end
