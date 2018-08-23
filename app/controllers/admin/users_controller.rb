@@ -17,7 +17,7 @@ class Admin::UsersController < ApplicationController
       end
       @users = ldap_search_users + ldap_role_users
     end
-    if params[:keywords].size > 0
+    if params[:keywords] && params[:keywords].size > 0
       sanitized_keywords = params[:keywords]
       sanitized_keywords = sanitized_keywords[0..-2] if sanitized_keywords[-1] == '*'
       sanitized_keywords = sanitized_keywords[1..-1] if sanitized_keywords[0] == '*'
