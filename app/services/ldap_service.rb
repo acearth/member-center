@@ -49,14 +49,10 @@ class LdapService
     def set_role(role_name, user)
       open_ldap do |server|
         cn_pair(user).each do |cn|
-          clean_role(cn)
+          all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, cn]]}
           server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, cn]]
         end
       end
-    end
-
-    def clean_role(cn)
-      all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, cn]]}
     end
 
     # Returns user_name and email address pair
