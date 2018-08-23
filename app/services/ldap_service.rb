@@ -48,9 +48,21 @@ class LdapService
 
     def set_role(role_name, user)
       open_ldap do |server|
-        all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, user]]}
-        server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, user]]
+        cn_paire(user).each do |cn|
+          clean_role(cn)
+          server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, cn]]
+        end
       end
+    end
+
+    def clean_role(cn)
+      all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, cn]]}
+    end
+
+    # Returns user_name and email address pair
+    def cn_pair(cn)
+      got = find_user(cn).first
+      got.nil? ? [] : find_user(got.mail.first, 'mail').flat_map(&:cn)
     end
 
     def find_lost_user
@@ -58,6 +70,8 @@ class LdapService
     end
 
     def add_email_entry(email, password)
+      old_user = cn_pair(email).first
+      got_role = role(old_user)
       email_prefix = email.split("@").first
       entry = {
           uid: email,
@@ -71,9 +85,12 @@ class LdapService
           objectclass: ['top', 'posixAccount', 'inetOrgPerson']
       }
       open_ldap {|server| server.add(dn: user_dn(email), attributes: entry)}
+      set_role(got_role, email) if got_role != 'ordinary'
     end
 
     def add_user_entry(user_name, password, mail)
+      old_user = cn_pair(email).first
+      got_role = role(old_user)
       entry = {
           uid: user_name,
           userpassword: Net::LDAP::Password.generate(:md5, password),
@@ -86,6 +103,7 @@ class LdapService
           objectclass: ['top', 'posixAccount', 'inetOrgPerson']
       }
       open_ldap {|server| server.add(dn: user_dn(user_name), attributes: entry)}
+      set_role(got_role, email) if got_role != 'ordinary'
     end
 
     def set_password(user_name, new_password)
@@ -113,8 +131,9 @@ class LdapService
       filter = Net::LDAP::Filter.eq("uid", uid)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
-    def find_user(user_name)
-      filter = Net::LDAP::Filter.eq("cn", user_name)
+
+    def find_user(user_name, attr = 'cn')
+      filter = Net::LDAP::Filter.eq(attr, user_name)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
 
