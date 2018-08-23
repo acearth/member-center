@@ -48,7 +48,7 @@ class LdapService
 
     def set_role(role_name, user)
       open_ldap do |server|
-        cn_paire(user).each do |cn|
+        cn_pair(user).each do |cn|
           clean_role(cn)
           server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, cn]]
         end
