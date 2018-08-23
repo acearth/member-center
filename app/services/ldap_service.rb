@@ -51,6 +51,7 @@ class LdapService
         cn_pair(user).each do |cn|
           all_role.each {|role| server.modify dn: "cn=#{role},#{GROUP_BASE_DN}", operations: [[:delete, :memberuid, cn]]}
           server.modify dn: "cn=#{role_name},#{GROUP_BASE_DN}", operations: [[:add, :memberuid, cn]]
+          sync_genius_role(cn, role_name)
           Rails.logger.info {"CI_LDAP: set role: #{cn}, #{role_name}"}
         end
       end
