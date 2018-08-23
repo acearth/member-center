@@ -17,7 +17,10 @@ class Admin::UsersController < ApplicationController
       end
       @users = ldap_search_users + ldap_role_users
     end
-    searched_result = User.search(params[:keywords])
+    sanitized_keywords = params[:keywords]
+    sanitized_keywords = sanitized_keywords[0..-2] if sanitized_keywords[-1] == '*'
+    sanitized_keywords = sanitized_keywords[1..-1] if sanitized_keywords[0] == '*'
+    searched_result = User.search(sanitized_keywords)
     @users += searched_result if searched_result
     @users.uniq! {|u| u.user_name}
     render 'users/index'
