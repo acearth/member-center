@@ -69,7 +69,7 @@ class LdapService
 
     def add_email_entry(email, password)
       old_user = cn_pair(email).first
-      got_role = role(old_user)
+      got_role = role(old_user) unless old_user.nil?
       email_prefix = email.split("@").first
       entry = {
           uid: email,
@@ -83,7 +83,7 @@ class LdapService
           objectclass: ['top', 'posixAccount', 'inetOrgPerson']
       }
       open_ldap {|server| server.add(dn: user_dn(email), attributes: entry)}
-      set_role(got_role, email) if got_role != 'ordinary'
+      set_role(got_role, email) if got_role && got_role != 'ordinary'
     end
 
     def add_user_entry(user_name, password, mail)
