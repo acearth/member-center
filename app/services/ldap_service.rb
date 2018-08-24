@@ -87,7 +87,7 @@ class LdapService
     end
 
     def add_user_entry(user_name, password, mail)
-      old_user = cn_pair(email).first
+      old_user = cn_pair(mail).first
       got_role = role(old_user)
       entry = {
           uid: user_name,
