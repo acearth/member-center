@@ -87,8 +87,6 @@ class LdapService
     end
 
     def add_user_entry(user_name, password, mail)
-      old_user = cn_pair(mail).first
-      got_role = role(old_user)
       entry = {
           uid: user_name,
           userpassword: Net::LDAP::Password.generate(:md5, password),
@@ -101,7 +99,6 @@ class LdapService
           objectclass: ['top', 'posixAccount', 'inetOrgPerson']
       }
       open_ldap {|server| server.add(dn: user_dn(user_name), attributes: entry)}
-      set_role(got_role, email) if got_role != 'ordinary'
     end
 
     def set_password(user_name, new_password)
