@@ -15,9 +15,7 @@
         <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
         <div class="form-group">
           <%= f.label t('login') %>
-          <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Please input your email address or genius username' %>
-<!--          <span class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
-<!--          <div class="help-block with-errors">Username starts with letter, only numbers, letters and dot(.) are allowed. </div>-->
+          <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Using Gmail address to login is recommended,  genius account is compatible with Gmail account' %>
         </div>
         <div class="form-group">
         <%= f.label t('password') %>
@@ -42,4 +40,28 @@
   </div>
   <div>
   </div>
+</div>
+<div class="col-md-6 col-md-offset-3">
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  </br>
+  <div class="center"><strong>NOTICE</strong></div>
+  <p>
+    Genius account is planning to merging into ITS LDAP account(commonly know as Gmail account). Now you can use you
+    Gmail address and password to login Genius Center. User data is synchronized automatically with your Genius account
+    when you using Gmail account login.
+  </p>
+  <p>
+    To reduce internal account managing cost and provide better internal auth service, we plan to stop Genius account
+    self-registration service after 30/Sept, 2018. After stop account self-registration, new member will auto-registered
+    when he/she first loggin to Genius Center by using Gmail account.
+  </p>
+  <p>
+    We recommend you to use Gmail account login Genius directly from now on. All existed user are not affected by this Genius account upgrade.
+  </p>
 </div>

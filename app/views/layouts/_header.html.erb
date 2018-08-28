@@ -19,10 +19,11 @@
                   <li><%= link_to "Profile", current_user %></li>
                   <li><%= link_to t('settings'), edit_user_path(current_user) %></li>
                   <li class="divider"></li>
+                  <li> <%= link_to t('logout'), logout_path, method: :delete %> </li>
+                <% else %>
+                  <li><%= link_to 'Password Reset', 'http://reg.internal.worksap.com' %></li>
+                  <li> <%= link_to t('logout'), logout_path, method: :delete %> </li>
                 <% end %>
-                <li>
-                  <%= link_to t('logout'), logout_path, method: :delete %>
-                </li>
               </ul>
             </li>
         <% else %>
