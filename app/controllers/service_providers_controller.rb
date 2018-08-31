@@ -14,8 +14,7 @@ class ServiceProvidersController < ApplicationController
   # GET /service_providers
   # GET /service_providers.json
   def index
-    @service_providers = ServiceProvider.where(user_id: @user.id)
-    flash[:warning] = I18n.t('no_access_right') if @service_providers.size == 0
+    @service_providers = ServiceProvider.where(email: @user.email)
   end
 
   # GET /service_providers/1
@@ -84,7 +83,7 @@ class ServiceProvidersController < ApplicationController
 
   def create_params
     got = params.require(:service_provider).permit(:app_id, :auth_level, :credential, :secret_key, :description, :callback_url, :test_use_only, :app_name)
-    got.merge({user: current_user, secret_key: ServiceProvider.new_secret_key, credential: ServiceProvider.new_credential})
+    got.merge({email: current_user.email, secret_key: ServiceProvider.new_secret_key, credential: ServiceProvider.new_credential})
   end
 
   def set_user
@@ -94,7 +93,7 @@ class ServiceProvidersController < ApplicationController
   end
 
   def correct_user
-    unless @user == @service_provider.user || @user.admin?
+    unless @user.email == @service_provider.email || @user.admin?
       flash[:warning] = I18n.t 'no_access_right'
       redirect_to login_path
     end
