@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_105119) do
+ActiveRecord::Schema.define(version: 2018_08_31_044335) do
 
   create_table "account_events", force: :cascade do |t|
     t.integer "event_type"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2018_08_09_105119) do
     t.string "app_name"
     t.string "home_page"
     t.boolean "test_use_only", default: false
+    t.string "email"
     t.index ["app_id"], name: "index_service_providers_on_app_id", unique: true
     t.index ["user_id"], name: "index_service_providers_on_user_id"
   end
