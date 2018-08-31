@@ -43,8 +43,9 @@
   <%= @service_provider.salt %>
 </p>
 
-<%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
-</br>
+<p>
+  <button class="btn btn-default"> <%= link_to 'Reset secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %> </button>
+</p>
 
 <%= link_to 'Edit', edit_service_provider_path(@service_provider) %> |
 <%= link_to 'Back', service_providers_path %>
