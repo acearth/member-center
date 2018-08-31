@@ -1,6 +1,7 @@
 class Api::V1::GeniusController < ApplicationController
-  protect_from_forgery with: :null_session
+  skip_forgery_protection
   before_action :set_service_proivider
+  USER_DN = 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
 
   def jwt_user
     secret = ENV['JWT_SECRET']
@@ -13,6 +14,7 @@ class Api::V1::GeniusController < ApplicationController
   end
 
   def exist?
+    #TODO-check
     render plain: (User.find_by_user_name(params[:user_name]) && true || false)
   end
 
@@ -45,6 +47,9 @@ class Api::V1::GeniusController < ApplicationController
   #   app_id
   #   ticket
   #   sign
+  #
+  # 1. try cookie first after validation
+  # 2. fetch by ITS LDAP
   def authenticate
     mandatory_keys = [:app_id, :ticket, :sign]
     if params.slice(*mandatory_keys).values.any?(&:nil?)
@@ -61,11 +66,15 @@ class Api::V1::GeniusController < ApplicationController
     else
       ticket.used = true
       ticket.save!
-      render json: to_response("success", ticket.user)
+      render json: to_response("success", get_user_from_ticket(ticket))
     end
   end
 
   private
+
+  def get_user_from_ticket(ticket)
+    User.find_by_email(ticket.email) || fetch_ldap_user(ticket.email)
+  end
 
   def to_response(msg, user = nil)
     seq = Time.now.to_i #TODO-improve
@@ -80,10 +89,23 @@ class Api::V1::GeniusController < ApplicationController
     res.merge!({user: {user_name: user.user_name,
                        employee_id: user.emp_id,
                        email: user.email}}) if user
+    res.merge!({note: 'This user authenticated by ITS LDAP '}) unless user.id
     res.merge ({sign: signature})
   end
 
   def set_service_proivider
     @service_provider = ServiceProvider.find_by_app_id(params[:app_id])
   end
+
+  def fetch_ldap_user(email)
+    prefix = email.split("@worksap.co.jp").first
+    Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
+        filter = Net::LDAP::Filter.eq("uid", prefix)
+        result = server.search(base: USER_DN, filter: filter)
+        emp_id = result.first[:employeenumber].first if server.get_operation_result['code'] == 0
+        end
+        User.new(user_name: email.split("@worksap.co.jp").first, ##TODO-confirm: ITS LDAP user confirm
+                 emp_id: emp_id || 'Failed to fetch from ITS LDAP',
+                 email: email, note: 'This user from ITS LDAP')
+    end
 end

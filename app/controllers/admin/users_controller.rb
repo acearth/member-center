@@ -6,18 +6,37 @@ class Admin::UsersController < ApplicationController
   
   def index
     @users = []
-    @users = User.search(params[:keywords]) if params[:keywords]
-    @users.reject! {|user| user.role == 'inactive'}
+    if params[:keywords]
+      ldap_search_users = LdapService.find_user(params[:keywords]).map do |item|
+        User.new(user_name: item.cn.first, email: item.mail.first, role: LdapService.role(item.cn.first))
+      end
+
+      ldap_role_users = LdapService.member_list(params[:keywords]).map do |cn|
+        email = cn.include?('@') ? cn : LdapService.find_user(cn).first.mail.first
+        User.new(user_name: cn, email: email, role: params[:keywords])
+      end
+      @users = ldap_search_users + ldap_role_users
+    end
+    if params[:keywords] && params[:keywords].size > 0
+      sanitized_keywords = params[:keywords]
+      sanitized_keywords = sanitized_keywords[0..-2] if sanitized_keywords[-1] == '*'
+      sanitized_keywords = sanitized_keywords[1..-1] if sanitized_keywords[0] == '*'
+      searched_result = User.search(sanitized_keywords)
+      @users += searched_result if searched_result
+    end
+    @users.uniq! {|u| u.user_name}
     render 'users/index'
   end
 
   def role
-    @users = params.select {|k, _| k.to_s.start_with?('user_')}.values
-                 .map {|user_name| User.find_by_user_name(user_name)}
+    @users = params.select {|k, _| k.to_s.start_with?('user::')}.values
+    @users = @users.map {|user_name| User.find_by_user_name(user_name) || User.new(user_name: user_name, email: user_name, role: LdapService.role(user_name) || 'ordinary')}
     @users.each do |user|
-      user.role = params[:new_role]
-      user.save
-      LdapService.attach_role(params[:new_role], user.user_name)
+      if user
+        user.role = params[:new_role]
+        user.save if user.id
+      end
+      LdapService.set_role(params[:new_role], user.user_name)
     end
     render 'users/index'
   end

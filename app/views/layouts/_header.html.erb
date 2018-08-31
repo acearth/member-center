@@ -12,15 +12,18 @@
             <li><%= link_to t('service_provider'), service_providers_path %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= current_user.user_name %> <b class="caret"></b>
+                <%= current_user.display_name || current_user.user_name %> <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li><%= link_to "Profile", current_user %></li>
-                <li><%= link_to t('settings'), edit_user_path(current_user) %></li>
-                <li class="divider"></li>
-                <li>
-                  <%= link_to t('logout'), logout_path, method: :delete %>
-                </li>
+                <% if current_user.id %>
+                  <li><%= link_to "Profile", current_user %></li>
+                  <li><%= link_to t('settings'), edit_user_path(current_user) %></li>
+                  <li class="divider"></li>
+                  <li> <%= link_to t('logout'), logout_path, method: :delete %> </li>
+                <% else %>
+                  <li><%= link_to 'Password Reset', 'http://reg.internal.worksap.com' %></li>
+                  <li> <%= link_to t('logout'), logout_path, method: :delete %> </li>
+                <% end %>
               </ul>
             </li>
         <% else %>

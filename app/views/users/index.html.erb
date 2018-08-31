@@ -1,7 +1,7 @@
 <form accept-charset="UTF-8" action="/admin/users/index">
   <input name="utf8" type="hidden" value="&#x2713;"/>
   <label for="q">Search for:</label>
-  <input id="q" name="keywords" type="text" placeholder='seperate keywords by ","'/>
+  <input id="q" name="keywords" type="text" placeholder='seperate keywords by ",", "*" as a wildcard is available'/>
   <input name="commit" type="submit" value="Search"/>
 </form>
 
@@ -27,10 +27,10 @@
     <% @users.each do |user| %>
       <tr>
         <td>
-          <%= check_box_tag('user_' + user.id.to_s, user.user_name) %>
+          <%= check_box_tag("user::#{user.id || user.user_name}", user.user_name) %>
         </td>
         <td>
-          <%= link_to user.user_name, user_path(user) %></td>
+        <td><%= (user.display_name || user.user_name) %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
       </tr>
