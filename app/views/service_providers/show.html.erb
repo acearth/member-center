@@ -1,5 +1,3 @@
-<%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
-
 <p>
   <strong>App ID:</strong>
   <%= @service_provider.app_id %>
@@ -44,5 +42,8 @@
   <strong>SALT:</strong>
   <%= @service_provider.salt %>
 </p>
+
+<%= link_to 'Rest secret keys', "/reset_sp_key/#{@service_provider.id}", method: :put %>
+
 <%= link_to 'Edit', edit_service_provider_path(@service_provider) %> |
 <%= link_to 'Back', service_providers_path %>
