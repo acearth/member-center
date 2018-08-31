@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_044335) do
+ActiveRecord::Schema.define(version: 2018_08_31_045617) do
 
   create_table "account_events", force: :cascade do |t|
     t.integer "event_type"
@@ -82,7 +82,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_044335) do
     t.integer "auth_level"
     t.string "credential", null: false
     t.string "secret_key", null: false
-    t.integer "user_id", null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -94,7 +93,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_044335) do
     t.boolean "test_use_only", default: false
     t.string "email"
     t.index ["app_id"], name: "index_service_providers_on_app_id", unique: true
-    t.index ["user_id"], name: "index_service_providers_on_user_id"
   end
 
   create_table "tickets", force: :cascade do |t|
