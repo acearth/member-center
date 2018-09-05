@@ -73,11 +73,11 @@ class Api::V1::GeniusController < ApplicationController
   private
 
   def get_user_from_ticket(ticket)
-    User.find_by_email(ticket.email) || fetch_ldap_user(ticket.email)
+    User.find_by_email(ticket.email) || ItsLdapService.virtual_user(ticket.email)
   end
 
   def to_response(msg, user = nil)
-    seq = Time.now.to_i #TODO-improve
+    seq = Time.now.to_i
     code = msg.downcase == 'success' ? 0 : 999
     for_sign = [seq, code, msg].map(&:to_s).join('-') + '-'
     for_sign +=[user.user_name, user.emp_id, user.email].map(&:to_s).join('-') if user
@@ -89,23 +89,11 @@ class Api::V1::GeniusController < ApplicationController
     res.merge!({user: {user_name: user.user_name,
                        employee_id: user.emp_id,
                        email: user.email}}) if user
-    res.merge!({note: 'This user authenticated by ITS LDAP '}) unless user.id
+    res.merge!({note: 'This user authenticated by ITS LDAP '}) unless user && user.id
     res.merge ({sign: signature})
   end
 
   def set_service_proivider
     @service_provider = ServiceProvider.find_by_app_id(params[:app_id])
   end
-
-  def fetch_ldap_user(email)
-    prefix = email.split("@worksap.co.jp").first
-    Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
-        filter = Net::LDAP::Filter.eq("uid", prefix)
-        result = server.search(base: USER_DN, filter: filter)
-        emp_id = result.first[:employeenumber].first if server.get_operation_result['code'] == 0
-        end
-        User.new(user_name: email.split("@worksap.co.jp").first, ##TODO-confirm: ITS LDAP user confirm
-                 emp_id: emp_id || 'Failed to fetch from ITS LDAP',
-                 email: email, note: 'This user from ITS LDAP')
-    end
 end

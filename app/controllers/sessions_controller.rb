@@ -1,7 +1,5 @@
 class SessionsController < ApplicationController
   skip_forgery_protection
-
-  USER_DN = 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
   include SessionsHelper
 
   before_action :set_third_party, only: [:new, :create]
@@ -15,8 +13,8 @@ class SessionsController < ApplicationController
   def create
     info = params.require(:session).permit(:login, :password, :remember_me, :app_id)
     if info[:login].include?('@')
-      if ldap_user = authenticate_and_fetch(info[:login], info[:password])
-        its_user(ldap_user, info[:remember_me])
+      if ItsLdapService.authenticate(info[:login], info[:password])
+        its_user(ItsLdapService.ldap_entry(info[:login]), info[:remember_me])
         if LdapService.find_by_uid(info[:login]).size > 0
           LdapService.set_password(info[:login], info[:password])
         else
@@ -44,21 +42,6 @@ class SessionsController < ApplicationController
         render 'new'
       end
     end
-  end
-
-  ### ONLY works for worksap user
-  def authenticate_and_fetch(email, password)
-    prefix = email.split('@worksap.co.jp').first
-    # NOTE: use SSH tunnel to forward request
-    Net::LDAP.new(host: ENV['ITS_LDAP_HOST'], port: ENV['ITS_LDAP_PORT']).open do |server|
-      server.auth("uid=#{prefix},ou=ldap_users,dc=internal,dc=worksap,dc=com", password)
-      if server.bind
-        filter = Net::LDAP::Filter.eq("uid", prefix)
-        result = server.search(base: USER_DN, filter: filter)
-        return result.first if server.get_operation_result['code'] == 0
-      end
-    end
-    false
   end
 
   def destroy
