@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
         else
           LdapService.add_email_entry(info[:login], info[:password])
         end
-        redirect_to login_back(ldap_user[:mail].first)
+        redirect_to login_back(info[:login])
       else
         flash[:error] = 'ITS LDAP email / password wrong!  Reset password on http://reg.internal.worksap.com if you forgot it'
         redirect_to login_path
