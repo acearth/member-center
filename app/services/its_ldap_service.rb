@@ -21,7 +21,7 @@ class ItsLdapService
       end
     end
 
-    def find_ldap_entry(email)
+    def ldap_entry(email)
       email_prefix = email.split('@').first
       Net::LDAP.new(host: HOST, port: PORT).open do |server|
         filter = Net::LDAP::Filter.eq("uid", email_prefix)
