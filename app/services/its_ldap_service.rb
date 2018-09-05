@@ -32,7 +32,7 @@ class ItsLdapService
     end
 
     def virtual_user(email)
-      ldap_entry = find_ldap_entry(email)
+      ldap_entry = ldap_entry(email)
       return User.new(user_name: "EMPTY LDAP RECORD, PLEASE CONTACT ADMIN") unless ldap_entry
       user_name = (ldap_entry.displayname || []).first || email.split('@').first
       display_name = (ldap_entry.displayname || []).first || email.split('@').first
