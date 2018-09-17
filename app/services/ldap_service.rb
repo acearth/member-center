@@ -106,29 +106,17 @@ class LdapService
       open_ldap {|server| server.replace_attribute(user_dn(user_name), 'userpassword', md5_password)}
     end
 
-    #TODO-confirm
-    def get_role(user_name)
-      ROLE.each do |role|
-        role_dn = "cn=#{role},ou=groups,dc=worksap,dc=com"
-        filter = Net::LDAP::Filter.eq("uid", user_name)
-        ops = [[:search, :memberuid, user_name]]
-        open_ldap {|server| server.search base: role_dn, filter: filter}
-      end
-    end
-
-    def attach_role(role_name, user_name)
-      role_dn="cn=#{role_name},ou=groups,dc=worksap,dc=com"
-      ops=[[:add, :memberuid, user_name]]
-      open_ldap {|server| server.modify dn: role_dn, operations: ops}
-    end
-
     def find_by_uid(uid)
       filter = Net::LDAP::Filter.eq("uid", uid)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
 
-    def find_user(user_name, attr = 'cn')
-      filter = Net::LDAP::Filter.eq(attr, user_name)
+    ##
+    # @note regex '*' is available for search.
+    #       '*an_x' can got result with ['an_x' ,'pan_x']
+    #
+    def find_user(common_name, attr = 'cn')
+      filter = Net::LDAP::Filter.eq(attr, common_name)
       open_ldap {|server| return server.search(base: 'ou=users,dc=worksap,dc=com', filter: filter)}
     end
 

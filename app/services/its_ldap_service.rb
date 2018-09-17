@@ -26,7 +26,7 @@ class ItsLdapService
       Net::LDAP.new(host: HOST, port: PORT).open do |server|
         filter = Net::LDAP::Filter.eq("uid", email_prefix)
         result = server.search(base: USER_DN, filter: filter)
-        return result.first if server.get_operation_result['code'] == 0
+        return result if server.get_operation_result['code'] == 0
         Rails.logger.error {"Failed to find ITS LDAP USER: #{email}, #{server.get_operation_result['code']}, #{server.get_operation_result['message']}"}
       end
     end

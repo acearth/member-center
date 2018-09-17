@@ -1,3 +1,7 @@
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<meta name="google-signin-client_id" content="67093506703-ks65cv5fduismhfkn1odeaq9v2po3a5u.apps.googleusercontent.com">
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
 <h1 align="center"></h1>
 <%= stylesheet_link_tag 'application', media: 'all',
                         'data-turbolinks-track' => true %>
@@ -12,17 +16,17 @@
       </div>
     <% end %>
     <%= form_for(:session, url: login_path + '?' + request.query_parameters.to_query, html: {'data-toggle': 'validator'}) do |f| %>
-        <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
-        <div class="form-group">
-          <%= f.label t('login') %>
-          <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Using Gmail address to login is recommended,  genius account is compatible with Gmail account' %>
-        </div>
-        <div class="form-group">
+      <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
+      <div class="form-group">
+        <%= f.label t('login') %>
+        <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Using Gmail address to login is recommended,  genius account is compatible with Gmail account' %>
+      </div>
+      <div class="form-group">
         <%= f.label t('password') %>
-          <%= f.password_field :password, class: 'form-control', 'data-minlength': 6, 'data-error': 'Password must longer than 5 charactors.' %>
-          <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-          <span class="help-block with-errors">Password must longer than 5 charactors.</span>
-        </div>
+        <%= f.password_field :password, class: 'form-control', 'data-minlength': 6, 'data-error': 'Password must longer than 5 charactors.' %>
+        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+        <span class="help-block with-errors">Password must longer than 5 charactors.</span>
+      </div>
       <div class="form-group">
         <%= f.label :remember_me, class: "checkbox inline" do %>
           <%= f.check_box :remember_me, {checked: true}, true, false %>
@@ -30,9 +34,9 @@
         <% end %>
       </div>
       <%= f.submit t('login'), class: "btn btn-primary btn-block" %>
-        <%= f.hidden_field :app_id, :value => params[:app_id] %>
-        </br>
-        <span>
+      <%= f.hidden_field :app_id, :value => params[:app_id] %>
+      </br>
+      <span>
           <span class="pull-left"> <%= link_to t('register'), new_user_url %></span>
           <div class="pull-right"> <%= link_to t('forget_password?'), new_password_reset_url %></div>
         </span>
@@ -65,3 +69,13 @@
     We recommend you to use Gmail account login Genius directly from now on. All existed user are not affected by this Genius account upgrade.
   </p>
 </div>
+
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+</script>
