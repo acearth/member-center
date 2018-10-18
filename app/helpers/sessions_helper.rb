@@ -25,7 +25,7 @@ module SessionsHelper
     user = User.new(display_name: jwt_payload[:display_name],
                     user_name: jwt_payload[:display_name],
                     emp_id: jwt_payload[:emp_id],
-                    role: genius && genius.role || :ordinary,
+                    role: genius && genius.role || LdapService.role(jwt_payload[:email]) || :ordinary,
                     email: jwt_payload[:email])
       guarantee_jwt(user)
       jwt_rsa(user)
