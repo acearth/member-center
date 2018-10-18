@@ -153,8 +153,10 @@ class LdapService
 
     def sync_genius_role(cn, role)
       user = User.find_by_email(cn) || User.find_by_user_name(cn)
-      user.role = role if user
-      user.save
+      if user
+        user.role = role
+        user.save
+      end
     end
   end
 end
