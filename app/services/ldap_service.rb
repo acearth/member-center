@@ -142,7 +142,7 @@ class LdapService
         rescue => error
           loop_time += 1
           retry if loop_time < 9
-          Rails.logger.error "Failed to execute LDAP service: #{error}"
+          Rails.logger.error "Failed to execute LDAP service: #{error}, #{error.backtrace}"
         end
       end
     end
