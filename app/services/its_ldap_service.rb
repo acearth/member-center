@@ -34,9 +34,9 @@ class ItsLdapService
     def virtual_user(email)
       ldap_entry = ldap_entry(email)
       return User.new(user_name: "EMPTY LDAP RECORD, PLEASE CONTACT ADMIN") unless ldap_entry
-      user_name = (ldap_entry.displayname || []).first || email.split('@').first
-      display_name = (ldap_entry.displayname || []).first || email.split('@').first
-      emp_id = (ldap_entry.employeenumber || []).first
+      user_name = ldap_entry[:displayname].first || email.split('@').first
+      display_name = ldap_entry[:displayname].first || email.split('@').first
+      emp_id = ldap_entry[:employeenumber].first || 'not_given_by_ITS_authority'
       role = LdapService.role(email)
       User.new(user_name: user_name, emp_id: emp_id, email: email, display_name: display_name, role: role)
     end
