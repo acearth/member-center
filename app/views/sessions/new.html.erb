@@ -1,5 +1,5 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<%= tag('meta', data: {name: 'google-signin-client_id', content: ENV['CLIENT_ID_ON_GOOGLE']}) %>
+<%= tag('meta', {name: 'google-signin-client_id', content: ENV['CLIENT_ID_ON_GOOGLE']}) %>
 <h1 align="center"></h1>
 <%= stylesheet_link_tag 'application', media: 'all',
                         'data-turbolinks-track' => true %>
