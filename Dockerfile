@@ -1,4 +1,4 @@
-FROM ruby:alpine
+FROM ruby:2.5.3-alpine
 MAINTAINER an_x an_xiaoqiang@find_me_at.slack
 RUN apk update && apk add --upgrade build-base postgresql-dev yarn nodejs
 WORKDIR /myapp
