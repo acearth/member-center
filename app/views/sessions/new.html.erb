@@ -1,11 +1,10 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<%= tag('meta', {name: 'google-signin-client_id', content: ENV['CLIENT_ID_ON_GOOGLE']}) %>
+<%#= tag('meta', {name: 'google-signin-client_id', content: ENV['CLIENT_ID_ON_GOOGLE']}) %>
 <h1 align="center"></h1>
 <%= stylesheet_link_tag 'application', media: 'all',
                         'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <div class="row">
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
   <div class="col-md-6 col-md-offset-3">
     <% if @service_provider %>
       <div class="page-header center">
@@ -68,12 +67,3 @@
     We recommend you to use Gmail account login Genius directly from now on. All existed user are not affected by this Genius account upgrade.
   </p>
 </div>
-<script>
-    function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    }
-</script>
