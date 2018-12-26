@@ -7,9 +7,10 @@ require 'active_support'
 # Using User.where('email like ?', "%@ivtl%") to see IVTL users
 #
 class ItsLdapService
+  FAILED_OLD_DN = 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
   HOST = ENV['ITS_LDAP_HOST'] || 'ldap-jp01.workslan'
   PORT = ENV['ITS_LDAP_PORT'] || 389
-  USER_DN = ENV['ITS_USER_DN'] || 'ou=ldap_users,dc=internal,dc=worksap,dc=com'
+  USER_DN = ENV['ITS_USER_DN'] || "ou=worksap.co.jp,ou=ldap_users,dc=internal,dc=worksap,dc=com"
 
   class << self
 
