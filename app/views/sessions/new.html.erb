@@ -1,5 +1,4 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<%#= tag('meta', {name: 'google-signin-client_id', content: ENV['CLIENT_ID_ON_GOOGLE']}) %>
 <h1 align="center"></h1>
 <%= stylesheet_link_tag 'application', media: 'all',
                         'data-turbolinks-track' => true %>
@@ -17,13 +16,13 @@
       <span class="pull-right"><%= link_to 'Genius Center', root_url %></span>
       <div class="form-group">
         <%= f.label t('login') %>
-        <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Using Gmail address to login is recommended,  genius account is compatible with Gmail account' %>
+        <%= f.text_field :login, class: 'form-control', autofocus: 'autofocus', placeholder: 'Your works gmail address' %>
       </div>
       <div class="form-group">
         <%= f.label t('password') %>
-        <%= f.password_field :password, class: 'form-control', 'data-minlength': 6, 'data-error': 'Password must longer than 5 charactors.' %>
+        <%= f.password_field :password, class: 'form-control' %>
         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <span class="help-block with-errors">Password must longer than 5 charactors.</span>
+        <span class="help-block with-errors">Your Gmail password.</span>
       </div>
       <div class="form-group">
         <%= f.label :remember_me, class: "checkbox inline" do %>
@@ -35,7 +34,6 @@
       <%= f.hidden_field :app_id, :value => params[:app_id] %>
       </br>
       <span>
-          <span class="pull-left"> <%= link_to t('register'), new_user_url %></span>
           <div class="pull-right"> <%= link_to t('forget_password?'), 'http://reg.internal.worksap.com' %></div>
         </span>
     <% end %>
@@ -53,17 +51,5 @@
   </br>
   </br>
   <div class="center"><strong>NOTICE</strong></div>
-  <p>
-    Genius account is planning to merging into ITS LDAP account(commonly know as Gmail account). Now you can use you
-    Gmail address and password to login Genius Center. User data is synchronized automatically with your Genius account
-    when you using Gmail account login.
-  </p>
-  <p>
-    To reduce internal account managing cost and provide better internal auth service, we plan to stop Genius account
-    self-registration service after 30/Sept, 2018. After stop account self-registration, new member will auto-registered
-    when he/she first loggin to Genius Center by using Gmail account.
-  </p>
-  <p>
-    We recommend you to use Gmail account login Genius directly from now on. All existed user are not affected by this Genius account upgrade.
-  </p>
+  <p>Any questions, please contact : Shanghai communication staffs(CS) &#9993;commu_sh@ml.worksap.com </p>
 </div>
