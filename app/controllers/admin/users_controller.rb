@@ -7,7 +7,7 @@ class Admin::UsersController < ApplicationController
   def search
     render json: {error: "parameter keywords is required"} and return if params[:keywords].blank?
     got = retrieve
-    render json: got.map{|u| u.slice(:email, :user_name, :emp_id, :display_name)}
+    render json: got.map{|u| u.slice(:email, :user_name, :emp_id)}
   end
 
   def index
