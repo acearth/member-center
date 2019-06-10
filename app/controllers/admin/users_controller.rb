@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
-  before_action :logged_in_user
-  before_action :correct_user
+  before_action :logged_in_user, except: :search
+  before_action :correct_user, except: :search
 
   WillPaginate.per_page = 10
 
