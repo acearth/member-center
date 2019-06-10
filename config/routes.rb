@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'users/index'
     post 'users/role'
+    get 'users/search'
   end
 
   # resources :feedbacks
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post '/auth', to: 'tickets#authenticate'
+
 
   get 'tickets/authenticate'
 
