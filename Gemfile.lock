@@ -148,7 +148,7 @@ GEM
     pg (0.21.0)
     phonelib (0.6.26)
     public_suffix (3.0.3)
-    puma (3.12.0)
+    puma (3.12.3)
     rack (2.0.6)
     rack-protection (2.0.4)
       rack
@@ -296,7 +296,7 @@ DEPENDENCIES
   net-ldap
   pg (~> 0.20)
   phonelib
-  puma (~> 3.7)
+  puma (~> 3.12)
   rails (~> 5.2.0)
   redis-rails
   rest-client
